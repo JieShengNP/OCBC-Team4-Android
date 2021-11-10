@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         applybutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, SelectAccountActivity.class);
+                Intent intent = new Intent(MainActivity.this, Select_Apply.class);
                 startActivity(intent);
             }
         });
