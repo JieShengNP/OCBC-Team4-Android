@@ -9,13 +9,15 @@ import android.widget.Button;
 
 public class SelectAccountType extends AppCompatActivity {
 
-    Button individualAccBtn = findViewById(R.id.IndividualAccBtn);
-    Button jointAccBtn = findViewById(R.id.JointAccBtn);
+    Button individualAccBtn, jointAccBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_account_type);
+
+        individualAccBtn = findViewById(R.id.IndividualAccBtn);
+        jointAccBtn = findViewById(R.id.JointAccBtn);
 
         jointAccBtn.setOnClickListener(new View.OnClickListener() {
             @Override

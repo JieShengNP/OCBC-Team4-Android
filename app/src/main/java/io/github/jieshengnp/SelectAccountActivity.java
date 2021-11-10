@@ -9,14 +9,16 @@ import android.widget.Button;
 
 public class SelectAccountActivity extends AppCompatActivity {
 
-    Button acc360Btn = findViewById(R.id.Acc360Btn);
-    Button accMSABtn = findViewById(R.id.AccMSABtn);
-    Button accFRANKBtn = findViewById(R.id.AccFRANKBtn);
+    Button acc360Btn, accMSABtn, accFRANKBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_account);
+
+        acc360Btn = findViewById(R.id.Acc360Btn);
+        accMSABtn = findViewById(R.id.AccMSABtn);
+        accFRANKBtn = findViewById(R.id.AccFRANKBtn);
 
         acc360Btn.setOnClickListener(new View.OnClickListener() {
             @Override
