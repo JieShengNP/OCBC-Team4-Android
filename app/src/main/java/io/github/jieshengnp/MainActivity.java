@@ -9,16 +9,17 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
+    Button applybutton = findViewById(R.id.button2);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button applybutton = findViewById(R.id.button2);
         applybutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,selectAccountActivity.class);
+                Intent intent = new Intent(MainActivity.this, SelectAccountActivity.class);
                 startActivity(intent);
             }
         });

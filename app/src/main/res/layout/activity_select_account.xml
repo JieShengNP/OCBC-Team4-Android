@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".selectAccountActivity">
+    tools:context=".SelectAccountActivity">
 
     <TextView
         android:id="@+id/textView2"
@@ -25,47 +25,47 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/Acc360Btn"
         style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-        android:layout_width="282dp"
+        android:layout_width="0dp"
         android:layout_height="38dp"
         android:layout_marginStart="35dp"
         android:layout_marginTop="55dp"
-        android:layout_marginEnd="95dp"
+        android:layout_marginEnd="35dp"
         android:layout_marginBottom="10dp"
         android:text="360 Account"
         android:textSize="12dp"
         app:backgroundTint="#ffffff"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintBottom_toTopOf="@+id/AccMSABtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/AccMSABtn"
         style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-        android:layout_width="285dp"
+        android:layout_width="0dp"
         android:layout_height="44dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="35dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="95dp"
+        android:layout_marginEnd="35dp"
         android:layout_marginBottom="10dp"
         android:text="Monthly Savings Account"
         android:textSize="12dp"
         app:backgroundTint="#ffffff"
-        app:layout_constraintBottom_toTopOf="@+id/button5"
+        app:layout_constraintBottom_toTopOf="@+id/AccFRANKBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintTop_toBottomOf="@+id/Acc360Btn" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/AccFRANKBtn"
         style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-        android:layout_width="285dp"
+        android:layout_width="0dp"
         android:layout_height="42dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="35dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="95dp"
+        android:layout_marginEnd="35dp"
         android:layout_marginBottom="401dp"
         android:text="FRANK Account"
         android:textSize="12dp"
@@ -73,5 +73,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button4" />
+        app:layout_constraintTop_toBottomOf="@+id/AccMSABtn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

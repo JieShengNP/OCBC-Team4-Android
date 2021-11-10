@@ -9,8 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OCBCTeam4Android">
+        <activity android:name=".SelectApplicationCode"></activity>
+        <activity android:name=".SelectAccountType" />
         <activity
-            android:name=".selectAccountActivity"
+            android:name=".SelectAccountActivity"
             android:exported="false" />
         <activity android:name=".MainActivity">
             <intent-filter>
