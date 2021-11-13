@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity_application_form_1"
+    android:fillViewport="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity_application_form_1">
+
+
+        <TextView
+            android:id="@+id/addressLbl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="28dp"
+            android:text="Address as in NRIC"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="28dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/genderLbl">
+
+            <RadioButton
+                android:id="@+id/radioButton3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Male"
+                android:textColor="#353535" />
+
+            <RadioButton
+                android:id="@+id/radioButton4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Female" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/icLbl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="28dp"
+            android:text="NRIC/Passporrt Number"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nationalityLayout" />
+
+        <TextView
+            android:id="@+id/birthplaceLbl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="28dp"
+            android:text="Country of Birth"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/icLayout" />
+
+        <TextView
+            android:id="@+id/dobLbl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="28dp"
+            android:text="dd/mm/yyyy"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/raceLayout" />
+
+        <TextView
+            android:id="@+id/raceLbl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="28dp"
+            android:text="Race"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/birthplaceLayout" />
+
+        <TextView
+            android:id="@+id/genderLbl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="28dp"
+            android:text="Gender"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dobLayout" />
+
+        <TextView
+            android:id="@+id/titleLbl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="28dp"
+            android:text="Title"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/box" />
+
+        <TextView
+            android:id="@+id/nameLbl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="28dp"
+            android:text="Name (As in your NRIC)"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleLayout" />
+
+        <TextView
+            android:id="@+id/nationalityLbl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="28dp"
+            android:text="Nationality"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nameLayout" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="21dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="?attr/actionModeCloseDrawable" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="145dp"
+            android:layout_height="53dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.377"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="@+id/imageView"
+            app:layout_constraintVertical_bias="0.483"
+            app:srcCompat="@drawable/ocbc_bank_logo_png_transparent" />
+
+        <TextView
+            android:id="@+id/textVie5"
+            android:layout_width="317dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="24dp"
+            android:text="Joint Account Application"
+            android:textColor="#755555"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.372"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+        <TextView
+            android:id="@+id/textVie3"
+            android:layout_width="96dp"
+            android:layout_height="53dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="40dp"
+            android:text="3rd account holder details"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/textVie"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textVie2"
+            app:layout_constraintTop_toTopOf="@+id/textVie"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/textVie"
+            android:layout_width="96dp"
+            android:layout_height="54dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="31dp"
+            android:text="1st account holder details"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toStartOf="@+id/textVie2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/progressBar3" />
+
+        <TextView
+            android:id="@+id/textVie2"
+            android:layout_width="96dp"
+            android:layout_height="53dp"
+            android:layout_marginEnd="36dp"
+            android:text="2nd account holder details"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="@+id/textVie"
+            app:layout_constraintEnd_toStartOf="@+id/textVie3"
+            app:layout_constraintTop_toTopOf="@+id/textVie"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <ProgressBar
+            android:id="@+id/progressBar4"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/progressBar3"
+            app:layout_constraintEnd_toStartOf="@+id/textVie3"
+            app:layout_constraintStart_toEndOf="@+id/progressBar3"
+            app:layout_constraintTop_toTopOf="@+id/progressBar3"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ProgressBar
+            android:id="@+id/progressBar3"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="29dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="3dp"
+            app:layout_constraintEnd_toStartOf="@+id/progressBar4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textVie5" />
+
+        <ProgressBar
+            android:id="@+id/progressBar5"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="124dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/progressBar3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/progressBar4"
+            app:layout_constraintTop_toTopOf="@+id/progressBar3"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/box"
+            android:layout_width="0dp"
+            android:layout_height="457dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="30dp"
+            android:background="#F3F3F3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="145dp"
+            android:text="For OCBC customers,"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/box"
+            app:layout_constraintStart_toStartOf="@+id/box"
+            app:layout_constraintTop_toTopOf="@+id/box" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="247dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="71dp"
+            android:text="save time on filling the form by using your details with us."
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/box"
+            app:layout_constraintStart_toStartOf="@+id/box"
+            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Fill your personal details "
+            android:textSize="19sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.08"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textVie" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:layout_editor_absoluteY="1324dp" />
+
+        <Button
+            android:id="@+id/loginBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="25dp"
+            android:text="Next"
+            app:backgroundTint="#555555"
+            app:layout_constraintEnd_toEndOf="@+id/box"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/box"
+            app:layout_constraintTop_toBottomOf="@+id/forgetPwdTxt" />
+
+        <TextView
+            android:id="@+id/forgetPwdTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="25dp"
+            android:text="Forget Access Code or PIN"
+            android:textColor="#856EFF"
+            android:textSize="14sp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@+id/box"
+            app:layout_constraintStart_toStartOf="@+id/box"
+            app:layout_constraintTop_toBottomOf="@+id/pinLayout" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/accessCodeLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="@+id/box"
+            app:layout_constraintStart_toStartOf="@+id/box"
+            app:layout_constraintTop_toBottomOf="@+id/loginRadioGrp"
+            app:boxBackgroundColor="@color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/accessCodeTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Access code"
+                android:inputType="text"
+                android:textSize="16sp"
+                tools:layout_editor_absoluteX="30dp"
+                tools:layout_editor_absoluteY="549dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/pinLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="25dp"
+            app:boxBackgroundColor="@color/white"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="@+id/box"
+            app:layout_constraintHorizontal_bias="0.381"
+            app:layout_constraintStart_toStartOf="@+id/box"
+            app:layout_constraintTop_toBottomOf="@+id/accessCodeLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:hint="6-digit PIN"
+                android:inputType="text"
+                android:textSize="16sp"
+                tools:layout_editor_absoluteX="30dp"
+                tools:layout_editor_absoluteY="549dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/titleLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="28dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleLbl"
+            app:errorEnabled="true">
+
+            <AutoCompleteTextView
+                android:id="@+id/titleDropdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:dropDownHeight="100dp"
+                android:hint="Please select"
+                android:inputType="none"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="28dp"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nameLbl">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nameTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textSize="14sp"
+                tools:layout_editor_absoluteX="30dp"
+                tools:layout_editor_absoluteY="549dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nationalityLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="28dp"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nationalityLbl">
+
+            <AutoCompleteTextView
+                android:id="@+id/countryDropdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:dropDownHeight="100dp"
+                android:hint="Please select"
+                android:inputType="none"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/icLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="28dp"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/icLbl">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/icTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textSize="14sp"
+                tools:layout_editor_absoluteX="30dp"
+                tools:layout_editor_absoluteY="549dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/birthplaceLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="28dp"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/birthplaceLbl">
+
+            <AutoCompleteTextView
+                android:id="@+id/birthplaceDropdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:dropDownHeight="100dp"
+                android:hint="Please select"
+                android:inputType="none"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RadioGroup
+            android:id="@+id/loginRadioGrp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="29dp"
+            app:layout_constraintEnd_toEndOf="@+id/box"
+            app:layout_constraintStart_toStartOf="@+id/box"
+            app:layout_constraintTop_toBottomOf="@+id/textView9">
+
+            <RadioButton
+                android:id="@+id/radioButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Online banking access"
+                app:buttonTint="#707070" />
+
+            <RadioButton
+                android:id="@+id/radioButton2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Any OCBC carrd (ATM, Credit or Debit)"
+                app:buttonTint="#707070" />
+        </RadioGroup>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/raceLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="28dp"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/raceLbl">
+
+            <AutoCompleteTextView
+                android:id="@+id/raceDropdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:dropDownHeight="100dp"
+                android:hint="Please select"
+                android:inputType="none"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                android:textSize="16sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dobLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="28dp"
+            app:errorEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dobLbl">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/dobTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textSize="14sp"
+                tools:layout_editor_absoluteX="30dp"
+                tools:layout_editor_absoluteY="549dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
