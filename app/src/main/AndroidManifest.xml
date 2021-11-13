@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OCBCTeam4Android">
+        <activity android:name=".activity_application_form_1"></activity>
         <activity android:name=".SelectApplicationType"></activity>
         <activity android:name=".Select_Apply"></activity>
         <activity android:name=".SelectApplicationCode" />
