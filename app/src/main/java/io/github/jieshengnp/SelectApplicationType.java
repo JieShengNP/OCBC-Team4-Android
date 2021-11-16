@@ -18,10 +18,6 @@ public class SelectApplicationType extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_application_type);
 
-        //      Hide the top title bar
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getSupportActionBar().hide();
-
         myInfoBtn = findViewById(R.id.useMyInfoButton);
         formBtn = findViewById(R.id.completeFormButton);
 

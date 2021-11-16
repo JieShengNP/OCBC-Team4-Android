@@ -38,10 +38,6 @@ public class ApplicationFormActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_form);
 
-//      Hide the top title bar
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getSupportActionBar().hide();
-
 //      Initialise data
         forgetPwdTxt = findViewById(R.id.forgetPwdTxt);
         loginBtn = findViewById(R.id.loginBtn);
