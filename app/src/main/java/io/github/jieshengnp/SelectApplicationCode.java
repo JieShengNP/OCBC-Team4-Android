@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class SelectApplicationCode extends AppCompatActivity {
 
-    Button noAppCode;
+    Button noAppCode, hasAppCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,11 +17,20 @@ public class SelectApplicationCode extends AppCompatActivity {
         setContentView(R.layout.activity_select_application_code);
 
         noAppCode = findViewById(R.id.noAppCode);
+        hasAppCode = findViewById(R.id.hasAppCode);
 
         noAppCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(SelectApplicationCode.this, SelectApplicationType.class);
+                startActivity(i);
+            }
+        });
+
+        hasAppCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SelectApplicationCode.this, EnterApplicationCodeActivity.class);
                 startActivity(i);
             }
         });
