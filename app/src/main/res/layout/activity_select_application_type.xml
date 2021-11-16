@@ -13,8 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Use MyInfo"
+        android:textColor="#FFFFFF"
         android:textSize="18sp"
-        app:backgroundTint="#CCCCCC"
+        app:backgroundTint="#555555"
+        app:iconTint="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/useMyInfoDesc" />
@@ -26,8 +28,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Complete A Form"
+        android:textColor="#FFFFFF"
         android:textSize="18sp"
-        app:backgroundTint="#CCCCCC"
+        app:backgroundTint="#555555"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/completeFormDesc" />

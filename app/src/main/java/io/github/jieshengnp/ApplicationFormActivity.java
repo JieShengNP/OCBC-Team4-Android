@@ -10,6 +10,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -25,6 +26,7 @@ public class ApplicationFormActivity extends AppCompatActivity {
     TextInputLayout accessCodeLayout, pinLayout;
     TextInputEditText accessCodeTxt, nameTxt;
     Button loginBtn, nextBtn;
+    ProgressBar progressBar1, progressBar2, progressBar3;
     String key;
     Applicant applicant;
     Application application;
@@ -49,11 +51,16 @@ public class ApplicationFormActivity extends AppCompatActivity {
         accessCodeLayout = findViewById(R.id.accessCodeLayout);
         pinLayout = findViewById(R.id.pinLayout);
         box = findViewById(R.id.box);
+        progressBar1 = findViewById(R.id.progressBar1);
+        progressBar2 = findViewById(R.id.progressBar2);
+        progressBar3 = findViewById(R.id.progressBar3);
 
         accessCodeLayout.setVisibility(View.GONE);
         pinLayout.setVisibility(View.GONE);
         loginBtn.setVisibility(View.GONE);
         forgetPwdTxt.setVisibility(View.GONE);
+
+        progressBar1.setProgress(100);
 
         ConstraintLayout.LayoutParams boxLP = (ConstraintLayout.LayoutParams) box.getLayoutParams();
         boxLP.height -= DipToPixels(237);

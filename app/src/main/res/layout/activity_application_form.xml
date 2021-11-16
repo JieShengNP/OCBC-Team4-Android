@@ -204,7 +204,7 @@
             android:layout_height="53dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="40dp"
-            android:text="3rd account holder details"
+            android:text="Review and confirmation"
             android:textSize="14sp"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="@+id/textVie"
@@ -224,7 +224,7 @@
             android:textStyle="normal"
             app:layout_constraintEnd_toStartOf="@+id/textVie2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progressBar3" />
+            app:layout_constraintTop_toBottomOf="@+id/progressBar1" />
 
         <TextView
             android:id="@+id/textVie2"
@@ -240,42 +240,42 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <ProgressBar
-            android:id="@+id/progressBar4"
+            android:id="@+id/progressBar2"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_marginStart="3dp"
             android:layout_marginEnd="4dp"
-            app:layout_constraintBottom_toBottomOf="@+id/progressBar3"
+            app:layout_constraintBottom_toBottomOf="@+id/progressBar1"
             app:layout_constraintEnd_toStartOf="@+id/textVie3"
-            app:layout_constraintStart_toEndOf="@+id/progressBar3"
-            app:layout_constraintTop_toTopOf="@+id/progressBar3"
+            app:layout_constraintStart_toEndOf="@+id/progressBar1"
+            app:layout_constraintTop_toTopOf="@+id/progressBar1"
             app:layout_constraintVertical_bias="0.0" />
 
         <ProgressBar
-            android:id="@+id/progressBar3"
+            android:id="@+id/progressBar1"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="0dp"
             android:layout_height="29dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="3dp"
-            app:layout_constraintEnd_toStartOf="@+id/progressBar4"
+            app:layout_constraintEnd_toStartOf="@+id/progressBar2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textVie5" />
 
         <ProgressBar
-            android:id="@+id/progressBar5"
+            android:id="@+id/progressBar3"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="124dp"
             android:layout_height="30dp"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/progressBar3"
+            app:layout_constraintBottom_toBottomOf="@+id/progressBar1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/progressBar4"
-            app:layout_constraintTop_toTopOf="@+id/progressBar3"
+            app:layout_constraintStart_toEndOf="@+id/progressBar2"
+            app:layout_constraintTop_toTopOf="@+id/progressBar1"
             app:layout_constraintVertical_bias="1.0" />
 
         <TextView
