@@ -47,7 +47,7 @@ public class ApplicationFormActivity extends AppCompatActivity {
     Applicant applicant;
     Application application;
 
-    TextInputEditText postalTxt, streetTxt, blockTxt;
+    //TextInputEditText postalTxt, streetTxt, blockTxt;
     Button getAddressBtn;
 
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://ocbc-team4-2b3ee-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -266,6 +266,8 @@ public class ApplicationFormActivity extends AppCompatActivity {
                     key = mDatabase.child("Application").push().getKey();
                     application = new Application(key, randomNumberString(), applicant);
                     mDatabase.child("Application").child(key).setValue(application);
+                    Intent i = new Intent(getApplicationContext(),ConfirmationPage.class);
+                    startActivity(i);
                 }
             }
         });
@@ -277,7 +279,7 @@ public class ApplicationFormActivity extends AppCompatActivity {
         Intent in = getIntent();
         application = (Application) in.getSerializableExtra("Application");
         if(application != null && application.getApplicantList().size() == 1){
-            startActivity(new Intent(ApplicationFormActivity.this, SelectApplicationType.class));
+            startActivity(new Intent(ApplicationFormActivity.this, ConfirmationPage.class));
         }
 
 //      Autofill if applicant select SingPass
