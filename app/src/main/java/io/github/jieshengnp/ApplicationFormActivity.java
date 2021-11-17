@@ -8,7 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -18,6 +19,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Locale;
 import java.util.Random;
 
 public class ApplicationFormActivity extends AppCompatActivity {
@@ -25,6 +29,7 @@ public class ApplicationFormActivity extends AppCompatActivity {
     TextView forgetPwdTxt, box;
     TextInputLayout accessCodeLayout, pinLayout;
     TextInputEditText accessCodeTxt, nameTxt;
+    AutoCompleteTextView titleDropdown, countryDropdown, raceDropdown, maritalDropdown;
     Button loginBtn, nextBtn;
     ProgressBar progressBar1, progressBar2, progressBar3;
     String key;
@@ -32,6 +37,9 @@ public class ApplicationFormActivity extends AppCompatActivity {
     Application application;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://ocbc-team4-2b3ee-default-rtdb.asia-southeast1.firebasedatabase.app/");
     DatabaseReference mDatabase = firebaseDatabase.getReference();
+    String[] salutations = {"Mr", "Mrs", "Ms", "Miss", "Mdm", "Dr"};
+    String[] races = {"CHINESE", "EURASIAN", "INDIAN", "MALAY", "OTHER RACES"};
+    String[] marital = {"DIVORCED", "MARRIED", "SEPARATED", "SINGLE", "WIDOWED"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +68,38 @@ public class ApplicationFormActivity extends AppCompatActivity {
 
         ConstraintLayout.LayoutParams boxLP = (ConstraintLayout.LayoutParams) box.getLayoutParams();
         boxLP.height -= DipToPixels(237);
+
+        // Add Salutations
+        titleDropdown = findViewById(R.id.titleDropdown);
+        ArrayAdapter<String> salutationAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, salutations);
+        titleDropdown.setAdapter(salutationAdapter);
+
+        //Add Nationalities
+        countryDropdown = findViewById(R.id.countryDropdown);
+        Locale[] locales = Locale.getAvailableLocales();
+        ArrayList<String> countries = new ArrayList<String>();
+        for (Locale locale: locales){
+            String country = locale.getDisplayCountry();
+            if (country.trim().length()>0 && !countries.contains(country)){
+                countries.add(country);
+            }
+        }
+        Collections.sort(countries);
+        countries.remove("Singapore");
+        countries.add(0, "Singapore");
+        ArrayAdapter<String> nationalitiesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, countries);
+        countryDropdown.setAdapter(nationalitiesAdapter);
+
+        //Add Ethnicity
+        raceDropdown = findViewById(R.id.raceDropdown);
+        ArrayAdapter<String> racesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, races);
+        raceDropdown.setAdapter(racesAdapter);
+
+        //Add Marital Status
+        maritalDropdown = findViewById(R.id.maritalDropdown);
+        ArrayAdapter<String> martialAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, marital);
+        maritalDropdown.setAdapter(martialAdapter);
+
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
