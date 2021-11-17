@@ -39,10 +39,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+            app:layout_constraintTop_toBottomOf="@+id/genderRadio" />
 
         <RadioGroup
-            android:id="@+id/radioGroup"
+            android:id="@+id/genderRadio"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
@@ -54,14 +54,14 @@
             app:layout_constraintTop_toBottomOf="@+id/genderLbl">
 
             <RadioButton
-                android:id="@+id/radioButton3"
+                android:id="@+id/genderMale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Male"
                 android:textColor="#353535" />
 
             <RadioButton
-                android:id="@+id/radioButton4"
+                android:id="@+id/genderFemale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Female" />
