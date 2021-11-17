@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -99,10 +100,23 @@ public class ApplicationFormActivity extends AppCompatActivity {
                                 JSONArray array = response.getJSONArray("results");
                                 if (array.length()>0){
                                     String street = array.getJSONObject(0).getString("ROAD_NAME");
+                                    String building = array.getJSONObject(0).getString("BUILDING");
                                     String blkNo = array.getJSONObject(0).getString("BLK_NO");
 
-                                    streetTxt.setText(street);
+                                    if (building.equalsIgnoreCase("NIL")){
+                                        building = "";
+                                    }
+                                    else{
+                                        building = ", " + building;
+                                    }
+
+                                    streetTxt.setText(street + building);
                                     blockTxt.setText(blkNo);
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), "Address could not be found", Toast.LENGTH_SHORT).show();
+                                    streetTxt.setText("");
+                                    blockTxt.setText("");
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
