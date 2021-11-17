@@ -24,7 +24,7 @@ public class SelectApplicationType extends AppCompatActivity {
         myInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Applicant newApplicant = new Applicant("ASD", true);
+                Applicant newApplicant = new Applicant();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("Applicant", (Serializable) newApplicant);
                 Intent in = new Intent(v.getContext(), ApplicationFormActivity.class);
