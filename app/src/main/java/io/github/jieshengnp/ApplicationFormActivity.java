@@ -47,7 +47,6 @@ public class ApplicationFormActivity extends AppCompatActivity {
     Applicant applicant;
     Application application;
 
-    TextInputEditText postalTxt, streetTxt, blockTxt;
     Button getAddressBtn;
 
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://ocbc-team4-2b3ee-default-rtdb.asia-southeast1.firebasedatabase.app/");
