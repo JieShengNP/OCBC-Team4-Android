@@ -54,7 +54,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 
     private FirebaseAuth mAuth;
     private FirebaseUser user;
-    TextView forgetPwdTxt, box, genderErrorTxt, emailLbl, passwordLbl;
+    TextView forgetPwdTxt, box, genderErrorTxt, emailLbl, passwordLbl, signInTitle1, signInTitle2;
     TextInputLayout accessCodeLayout, pinLayout, titleLayout, nameLayout, nationalityLayout, icLayout, raceLayout, dobLayout, postalLayout, streetLayout, blockLayout, unitLayout, phoneLayout, emailLayout, jobLayout, maritalLayout, passwordLayout;
     TextInputEditText accessCodeTxt, pinTxt, nameTxt, icTxt, dobTxt, postalTxt, streetTxt, blockTxt, unitTxt, mobileTxt, emailTxt, occupationTxt, passwordTxt;
     AutoCompleteTextView titleDropdown, countryDropdown, raceDropdown, maritalDropdown;
@@ -138,6 +138,8 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         raceDropdown = findViewById(R.id.raceDropdown);
         maritalDropdown = findViewById(R.id.maritalDropdown);
 
+        signInTitle1 = findViewById(R.id.textView8);
+        signInTitle2 = findViewById(R.id.textView9);
         emailLbl = findViewById(R.id.emailLbl);
         passwordLbl = findViewById(R.id.passwordLbl);
 
@@ -429,9 +431,14 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                             pinLayout.setVisibility(View.GONE);
                             loginBtn.setVisibility(View.GONE);
                             forgetPwdTxt.setVisibility(View.GONE);
-                            boxLP.height = (int) DipToPixels(220);
+                            box.setVisibility(View.GONE);
+                            signInTitle1.setVisibility(View.GONE);
+                            signInTitle2.setVisibility(View.GONE);
+                            loginRadioGroup.setVisibility(View.GONE);
+
                             accessCodeLayout.setError(null);
                             pinLayout.setError(null);
+
                             emailLbl.setVisibility(View.GONE);
                             emailLayout.setVisibility(View.GONE);
                             passwordLbl.setVisibility(View.GONE);
