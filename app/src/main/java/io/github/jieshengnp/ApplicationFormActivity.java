@@ -46,7 +46,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 
     TextView forgetPwdTxt, box, genderErrorTxt;
     TextInputLayout accessCodeLayout, pinLayout, titleLayout, nameLayout, nationalityLayout, icLayout, raceLayout, dobLayout, postalLayout, streetLayout, blockLayout, unitLayout, phoneLayout, emailLayout, jobLayout, maritalLayout;
-    TextInputEditText accessCodeTxt, nameTxt, icTxt, dobTxt, postalTxt, streetTxt, blockTxt, unitTxt, mobileTxt, emailTxt, occupationTxt;
+    TextInputEditText accessCodeTxt, pinTxt, nameTxt, icTxt, dobTxt, postalTxt, streetTxt, blockTxt, unitTxt, mobileTxt, emailTxt, occupationTxt;
     AutoCompleteTextView titleDropdown, countryDropdown, raceDropdown, maritalDropdown;
     Button loginBtn, nextBtn;
     RadioGroup loginRadioGroup;
@@ -83,6 +83,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         loginBtn = findViewById(R.id.loginBtn);
         nextBtn = findViewById(R.id.nextBtn);
         accessCodeTxt = findViewById(R.id.accessCodeTxt);
+        pinTxt = findViewById(R.id.pinTxt);
         nameTxt = findViewById(R.id.nameTxt);
         accessCodeLayout = findViewById(R.id.accessCodeLayout);
         pinLayout = findViewById(R.id.pinLayout);
@@ -167,6 +168,23 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
             }
         });
 
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (validateLoginInfo()){
+                    accessCodeLayout.setVisibility(View.GONE);
+                    pinLayout.setVisibility(View.GONE);
+                    loginBtn.setVisibility(View.GONE);
+                    forgetPwdTxt.setVisibility(View.GONE);
+                    boxLP.height = (int) DipToPixels(220);
+
+                    Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+                    accessCodeLayout.setError(null);
+                    pinLayout.setError(null);
+                }
+            }
+        });
+
         // Add Salutations
         titleDropdown = findViewById(R.id.titleDropdown);
         ArrayAdapter<String> salutationAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, salutations);
@@ -234,16 +252,6 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedMarital = parent.getAdapter().getItem(position).toString();
-            }
-        });
-
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextInputLayout til = findViewById(R.id.accessCodeLayout);
-                til.setError("Testing error msg");
-                TextInputLayout til2 = findViewById(R.id.nameLayout);
-                til2.setError("Testing error msg");
             }
         });
 
@@ -364,6 +372,24 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                 }
             }
         });
+    }
+
+    private boolean validateLoginInfo() {
+        boolean isValid = true;
+        if (accessCodeTxt.getText().toString().isEmpty() || !accessCodeTxt.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")){
+            accessCodeLayout.setError("Please enter a valid E-mail");
+            isValid = false;
+        }
+        else{
+            accessCodeLayout.setError(null);
+        }
+
+        if (pinTxt.getText().toString().isEmpty()){
+            pinLayout.setError("Please enter your password");
+            isValid = false;
+        }
+
+        return isValid;
     }
 
     @Override
@@ -557,6 +583,11 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         else{
             maritalLayout.setError(null);
         }
+
+        if(!isValid){
+            Toast.makeText(getApplicationContext(), "Some errors were found. ", Toast.LENGTH_SHORT).show();
+        }
+
         return isValid;
     }
     
