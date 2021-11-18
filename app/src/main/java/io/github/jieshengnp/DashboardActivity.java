@@ -1,12 +1,17 @@
 package io.github.jieshengnp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +38,9 @@ public class DashboardActivity extends AppCompatActivity {
     Applicant currentUserData;
     AccountsAdapter accountsAdapter;
     TextView nameTxt;
+    LinearLayout homeLayout, applicationLayout, settingLayout, logoutLayout;
+    AlertDialog.Builder adBuilder;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +48,34 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
 
         nameTxt = findViewById(R.id.dashboardWelcome);
+
+        homeLayout = findViewById(R.id.barHomeLayout);
+        applicationLayout = findViewById(R.id.barApplicationLayout);
+        settingLayout = findViewById(R.id.barSettingLayout);
+        logoutLayout = findViewById(R.id.barLogoutLayout);
+
+        adBuilder = new AlertDialog.Builder(DashboardActivity.this);
+        mAuth = FirebaseAuth.getInstance();
+
+        logoutLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adBuilder.setTitle("Are you sure you want to log out?");
+                adBuilder.setPositiveButton("Log out", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mAuth.signOut();
+                        Intent intent = new Intent(DashboardActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        Toast.makeText(DashboardActivity.this, "You have successfully logged out!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                adBuilder.setNegativeButton("Cancel", null);
+                adBuilder.setCancelable(true);
+                adBuilder.show();
+            }
+        });
 
         accountsList = new ArrayList<>();
 
