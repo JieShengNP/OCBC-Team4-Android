@@ -24,6 +24,7 @@ public class SelectApplicationType extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Applicant newApplicant = new Applicant();
+                newApplicant = sampleMyInfo();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("Applicant", (Serializable) newApplicant);
                 Intent in = new Intent(v.getContext(), ApplicationFormActivity.class);

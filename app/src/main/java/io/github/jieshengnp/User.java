@@ -1,9 +1,11 @@
 package io.github.jieshengnp;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class User {
+public class User implements Serializable {
     private Boolean isSingPass;
+    public User(){}
 
     public User(Boolean isSingPass, String title, String name, String nationality, String NRIC, String race, String DOB, String gender, String postal, String street, String block, String unit, String mobile, String email, String occupation, String martial) {
         this.isSingPass = isSingPass;
@@ -25,6 +27,7 @@ public class User {
     }
 
     private String Title;
+
 
     public Boolean getSingPass() {
         return isSingPass;
