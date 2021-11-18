@@ -66,7 +66,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 
     private FirebaseAuth mAuth;
     private FirebaseUser user;
-    TextView forgetPwdTxt, box, genderErrorTxt, emailLbl, passwordLbl;
+    TextView forgetPwdTxt, box, genderErrorTxt, emailLbl, passwordLbl, signInTitle1, signInTitle2;
     TextInputLayout accessCodeLayout, pinLayout, titleLayout, nameLayout, nationalityLayout, icLayout, raceLayout, dobLayout, postalLayout, streetLayout, blockLayout, unitLayout, phoneLayout, emailLayout, jobLayout, maritalLayout, passwordLayout;
     TextInputEditText accessCodeTxt, pinTxt, nameTxt, icTxt, dobTxt, postalTxt, streetTxt, blockTxt, unitTxt, mobileTxt, emailTxt, occupationTxt, passwordTxt;
     AutoCompleteTextView titleDropdown, countryDropdown, raceDropdown, maritalDropdown;
@@ -84,6 +84,8 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
     Bitmap imageBitmap;
     private static final int REQUEST_CAMERA_CODE = 100;
     StorageReference storageRef = FirebaseStorage.getInstance("gs://ocbc-team4-2b3ee.appspot.com/").getReference();
+
+    ArrayAdapter<String> nationalitiesAdapter;
 
     boolean isLoggedIn;
 
@@ -155,6 +157,8 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         raceDropdown = findViewById(R.id.raceDropdown);
         maritalDropdown = findViewById(R.id.maritalDropdown);
 
+        signInTitle1 = findViewById(R.id.textView8);
+        signInTitle2 = findViewById(R.id.textView9);
         emailLbl = findViewById(R.id.emailLbl);
         passwordLbl = findViewById(R.id.passwordLbl);
 
@@ -198,7 +202,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         Collections.sort(countries);
         countries.remove("Singapore");
         countries.add(0, "Singapore");
-        ArrayAdapter<String> nationalitiesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, countries);
+        nationalitiesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, countries);
         countryDropdown.setAdapter(nationalitiesAdapter);
 
         countryDropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -467,11 +471,11 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                                     else {
                                         Log.v("retrievedone", "Data retreiving");
                                         currentApplicant = task.getResult().getValue(Applicant.class);
-                                        titleDropdown.setText(currentApplicant.getTitle());
+                                        titleDropdown.setText(currentApplicant.getTitle(), false);
                                         nameTxt.setText(currentApplicant.getName());
-                                        countryDropdown.setText(currentApplicant.getNationality());
+                                        countryDropdown.setText(currentApplicant.getNationality(), false);
                                         icTxt.setText(currentApplicant.getNRIC());
-                                        raceDropdown.setText(currentApplicant.getRace());
+                                        raceDropdown.setText(currentApplicant.getRace(), false);
                                         dobTxt.setText(currentApplicant.getDOB());
 
                                         if (currentApplicant.getGender().equals("Male")){
@@ -489,12 +493,48 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                                         unitTxt.setText(currentApplicant.getUnit());
                                         mobileTxt.setText(currentApplicant.getMobile());
                                         occupationTxt.setText(currentApplicant.getOccupation());
-                                        maritalDropdown.setText(currentApplicant.getMartial());
+                                        maritalDropdown.setText(currentApplicant.getMartial(), false);
 
                                         isLoggedIn = true;
                                     }
                                 }
                             });
+
+                            //remove input field on success
+                            accessCodeLayout.setVisibility(View.GONE);
+                            pinLayout.setVisibility(View.GONE);
+                            loginBtn.setVisibility(View.GONE);
+                            forgetPwdTxt.setVisibility(View.GONE);
+                            box.setVisibility(View.GONE);
+                            signInTitle1.setVisibility(View.GONE);
+                            signInTitle2.setVisibility(View.GONE);
+                            loginRadioGroup.setVisibility(View.GONE);
+
+                            accessCodeLayout.setError(null);
+                            pinLayout.setError(null);
+
+                            emailLbl.setVisibility(View.GONE);
+                            emailLayout.setVisibility(View.GONE);
+                            passwordLbl.setVisibility(View.GONE);
+                            passwordLayout.setVisibility(View.GONE);
+
+                            //change all fields to read-only
+                            titleDropdown.setEnabled(false);
+                            nameTxt.setEnabled(false);
+                            countryDropdown.setEnabled(false);
+                            icTxt.setEnabled(false);
+                            raceDropdown.setEnabled(false);
+                            dobTxt.setEnabled(false);
+                            genderMale.setEnabled(false);
+                            genderFemale.setEnabled(false);
+                            postalTxt.setEnabled(false);
+                            getAddressBtn.setEnabled(false);
+                            streetTxt.setEnabled(false);
+                            blockTxt.setEnabled(false);
+                            unitTxt.setEnabled(false);
+                            mobileTxt.setEnabled(false);
+                            occupationTxt.setEnabled(false);
+                            maritalDropdown.setEnabled(false);
                         }
                         else {
                             // If sign in fails, display a message to the user.
@@ -543,23 +583,79 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 //      Autofill if applicant select SingPass
         Applicant singPassData = (Applicant) in.getSerializableExtra("Applicant");
         if(singPassData != null){
+            //remove login option
+            accessCodeLayout.setVisibility(View.GONE);
+            pinLayout.setVisibility(View.GONE);
+            loginBtn.setVisibility(View.GONE);
+            forgetPwdTxt.setVisibility(View.GONE);
+            box.setVisibility(View.GONE);
+            signInTitle1.setVisibility(View.GONE);
+            signInTitle2.setVisibility(View.GONE);
+            loginRadioGroup.setVisibility(View.GONE);
+
+            accessCodeLayout.setError(null);
+            pinLayout.setError(null);
+
+            emailLbl.setVisibility(View.GONE);
+            emailLayout.setVisibility(View.GONE);
+            passwordLbl.setVisibility(View.GONE);
+            passwordLayout.setVisibility(View.GONE);
             applicant = singPassData;
             applicant.setSingPass(true);
+
+
+            //Title
+            titleDropdown.setText(applicant.getTitle(), false);
 
             //Name
             nameTxt.setText(applicant.getName());
 
             //Nationality
+            countryDropdown.setText(applicant.getNationality(), false);
 
             //NRIC
+            icTxt.setText(applicant.getNRIC());
 
             //Race
+            raceDropdown.setText(applicant.getRace(), false);
 
             //DOB
+            dobTxt.setText(applicant.getDOB());
 
             //Gender
+            String applicantGender = applicant.getGender();
+            if (applicantGender.equals("Male")){
+                genderMale.setChecked(true);
+                genderFemale.setChecked(false);
+            }
+            else if(applicantGender.equals("Female")){
+                genderMale.setChecked(false);
+                genderFemale.setChecked(true);
+            }
 
-            //Address
+            //Postal Code
+            postalTxt.setText(applicant.getPostal());
+
+            //Street
+            streetTxt.setText(applicant.getStreet());
+
+            //block
+            blockTxt.setText(applicant.getBlock());
+
+            //unit number
+            unitTxt.setText(applicant.getUnit());
+
+            //mobile number
+            mobileTxt.setText(applicant.getMobile());
+
+            //email
+            emailTxt.setText(applicant.getEmail());
+
+            //occupation
+            occupationTxt.setText(applicant.getOccupation());
+
+            //marital status
+            maritalDropdown.setText(applicant.getMartial(), false);
         }
     }
 
@@ -988,19 +1084,6 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                     mAuth.signOut();
                     //get login info
                     SignIn(email, password);
-
-                    //remove input field on success
-                    accessCodeLayout.setVisibility(View.GONE);
-                    pinLayout.setVisibility(View.GONE);
-                    loginBtn.setVisibility(View.GONE);
-                    forgetPwdTxt.setVisibility(View.GONE);
-                    boxLP.height = (int) DipToPixels(220);
-                    accessCodeLayout.setError(null);
-                    pinLayout.setError(null);
-                    emailLbl.setVisibility(View.GONE);
-                    emailLayout.setVisibility(View.GONE);
-                    passwordLbl.setVisibility(View.GONE);
-                    passwordLayout.setVisibility(View.GONE);
                 }
                 isLoggedIn = true;
             }

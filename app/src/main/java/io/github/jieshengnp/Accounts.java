@@ -1,11 +1,15 @@
 package io.github.jieshengnp;
 
+import com.google.firebase.database.Exclude;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Accounts {
+public class Accounts implements Serializable {
     private String BankNo;
     private double Balance;
-    private HashMap<String, Boolean> Owner;
+    private HashMap<String, String> Owner;
     private String Status;
     private String Type;
 
@@ -45,11 +49,11 @@ public class Accounts {
         Owner = new HashMap<>();
     }
 
-    public HashMap<String, Boolean> getOwner() {
+    public HashMap<String, String> getOwner() {
         return Owner;
     }
 
-    public void setOwner(HashMap<String, Boolean> owner) {
+    public void setOwner(HashMap<String, String> owner) {
         Owner = owner;
     }
 }
