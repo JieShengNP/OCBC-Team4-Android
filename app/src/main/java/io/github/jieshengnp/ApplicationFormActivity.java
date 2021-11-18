@@ -54,9 +54,9 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 
     private FirebaseAuth mAuth;
     private FirebaseUser user;
-    TextView forgetPwdTxt, box, genderErrorTxt;
-    TextInputLayout accessCodeLayout, pinLayout, titleLayout, nameLayout, nationalityLayout, icLayout, raceLayout, dobLayout, postalLayout, streetLayout, blockLayout, unitLayout, phoneLayout, emailLayout, jobLayout, maritalLayout;
-    TextInputEditText accessCodeTxt, pinTxt, nameTxt, icTxt, dobTxt, postalTxt, streetTxt, blockTxt, unitTxt, mobileTxt, emailTxt, occupationTxt;
+    TextView forgetPwdTxt, box, genderErrorTxt, emailLbl, passwordLbl;
+    TextInputLayout accessCodeLayout, pinLayout, titleLayout, nameLayout, nationalityLayout, icLayout, raceLayout, dobLayout, postalLayout, streetLayout, blockLayout, unitLayout, phoneLayout, emailLayout, jobLayout, maritalLayout, passwordLayout;
+    TextInputEditText accessCodeTxt, pinTxt, nameTxt, icTxt, dobTxt, postalTxt, streetTxt, blockTxt, unitTxt, mobileTxt, emailTxt, occupationTxt, passwordTxt;
     AutoCompleteTextView titleDropdown, countryDropdown, raceDropdown, maritalDropdown;
     Button loginBtn, nextBtn;
     RadioGroup loginRadioGroup;
@@ -68,8 +68,6 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
     Application application;
     ImageView backBtn;
 
-    boolean loginIsPressed;
-    boolean nextIsPressed;
     boolean isLoggedIn;
 
     Button getAddressBtn;
@@ -118,6 +116,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         emailLayout = findViewById(R.id.emailLayout);
         jobLayout = findViewById(R.id.jobLayout);
         maritalLayout = findViewById(R.id.maritalLayout);
+        passwordLayout = findViewById(R.id.passwordLayout);
         box = findViewById(R.id.box);
         progressBar1 = findViewById(R.id.progressBar1);
         progressBar2 = findViewById(R.id.progressBar2);
@@ -132,11 +131,15 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         mobileTxt = findViewById(R.id.phoneTxt);
         emailTxt = findViewById(R.id.emailTxt);
         occupationTxt = findViewById(R.id.jobTxt);
+        passwordTxt = findViewById(R.id.passwordTxt);
         backBtn = findViewById(R.id.backBtn);
         titleDropdown = findViewById(R.id.titleDropdown);
         countryDropdown = findViewById(R.id.countryDropdown);
         raceDropdown = findViewById(R.id.raceDropdown);
         maritalDropdown = findViewById(R.id.maritalDropdown);
+
+        emailLbl = findViewById(R.id.emailLbl);
+        passwordLbl = findViewById(R.id.passwordLbl);
 
         postalTxt = findViewById(R.id.postalTxt);
         streetTxt = findViewById(R.id.streetTxt);
@@ -145,8 +148,6 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 
         mAuth = FirebaseAuth.getInstance();
 
-        loginIsPressed = false;
-        nextIsPressed = false;
         isLoggedIn = false;
 
 //      End of initialise code
@@ -561,10 +562,6 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
             isValid = false;
         }
 
-        //check if email is empty
-        if(emailTxt.getText().toString().isEmpty() || !emailTxt.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")){
-            isValid = false;
-        }
 
         //check if postal is empty
         if(occupationTxt.getText().toString().isEmpty()){
@@ -574,6 +571,17 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         //check if marital status is empty
         if(maritalDropdown.getText().toString().isEmpty()){
             isValid = false;
+        }
+
+        //if user is already logged in
+        if(!isLoggedIn){
+            //check if email is empty
+            if(emailTxt.getText().toString().isEmpty() || !emailTxt.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")){
+                isValid = false;
+            }
+            if(passwordTxt.getText().toString().isEmpty()){
+                isValid = false;
+            }
         }
 
         if(!isValid){
@@ -807,20 +815,34 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
             }
         });
 
-        emailTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    //check if title is empty
-                    if(emailTxt.getText().toString().isEmpty()){
-                        emailLayout.setError("Please enter your email");
-                    }
-                    else{
-                        emailLayout.setError(null);
+        if(!isLoggedIn) {
+            emailTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (!hasFocus) {
+                        //check if title is empty
+                        if (emailTxt.getText().toString().isEmpty() || !accessCodeTxt.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
+                            emailLayout.setError("Please enter a valid email");
+                        } else {
+                            emailLayout.setError(null);
+                        }
                     }
                 }
-            }
-        });
+            });
+
+            passwordTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (!hasFocus) {
+                        if (passwordTxt.getText().toString().isEmpty()) {
+                            passwordLayout.setError("Please enter your password");
+                        } else {
+                            passwordLayout.setError(null);
+                        }
+                    }
+                }
+            });
+        }
 
         occupationTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -903,8 +925,12 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                     boxLP.height = (int) DipToPixels(220);
                     accessCodeLayout.setError(null);
                     pinLayout.setError(null);
+                    emailLbl.setVisibility(View.GONE);
+                    emailLayout.setVisibility(View.GONE);
+                    passwordLbl.setVisibility(View.GONE);
+                    passwordLayout.setVisibility(View.GONE);
                 }
-                loginIsPressed = true;
+                isLoggedIn = true;
             }
         });
 
