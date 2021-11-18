@@ -334,24 +334,18 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                         applicant.setStreet(streetTxt.getText().toString());
                         applicant.setBlock(blockTxt.getText().toString());
                         applicant.setUnit(unitTxt.getText().toString());
-                    }
 
-                    //Title
-                    applicant.setTitle(selectedTitle);
+                        //Mobile
+                        applicant.setMobile(mobileTxt.getText().toString());
 
-                    //Mobile
-                    applicant.setMobile(mobileTxt.getText().toString());
+                        //Email
+                        applicant.setEmail(emailTxt.getText().toString());
 
-                    //Email
-                    applicant.setEmail(emailTxt.getText().toString());
+                        //Occupation
+                        applicant.setOccupation(occupationTxt.getText().toString());
 
-                    //Occupation
-                    applicant.setOccupation(occupationTxt.getText().toString());
-
-                    //Marital Status
-                    applicant.setMartial(selectedMarital);
-
-                    Log.d("check", "name" + applicant.getName());
+                        //Marital Status
+                        applicant.setMartial(selectedMarital);
 
                     if (progressBar2.getProgress() == 100) {
                         String notifyEmailBody = "";
@@ -435,11 +429,12 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 
     public boolean validateInput(){
 //        input validation here
+        boolean isValid = true;
 
         //check if title is empty
         if(titleDropdown.getText().toString().isEmpty()){
             titleLayout.setError("Please choose your title");
-            return false;
+            isValid = false;
         }
         else{
             titleLayout.setError(null);
@@ -448,7 +443,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         //check if name is empty
         if(nameTxt.getText().toString().isEmpty()){
             nameLayout.setError("Please enter your name");
-            return false;
+            isValid = false;
         }
         else{
             nameLayout.setError(null);
@@ -457,7 +452,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         //check if nationality is empty
         if(countryDropdown.getText().toString().isEmpty()){
             nationalityLayout.setError("Please choose your nationality");
-            return false;
+            isValid = false;
         }
         else{
             nationalityLayout.setError(null);
@@ -466,7 +461,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         //check if ic is empty
         if(icTxt.getText().toString().isEmpty()){
             icLayout.setError("Please enter your NRIC or Passport Number");
-            return false;
+            isValid = false;
         }
         else{
             icLayout.setError(null);
@@ -475,7 +470,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         //check if race is empty
         if(raceDropdown.getText().toString().isEmpty()){
             raceLayout.setError("Please choose your nationality");
-            return false;
+            isValid = false;
         }
         else{
             raceLayout.setError(null);
@@ -484,17 +479,17 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         //check if ic is empty
         if(dobTxt.getText().toString().isEmpty()){
             dobLayout.setError("Please choose your Date of Birth");
-            return false;
+            isValid = false;
         }
         else{
             dobLayout.setError(null);
         }
 
         //check if Gender is empty
-        if(!genderMale.isChecked() && !genderFemale.isChecked()){
+        if(!genderMale.isChecked() && !genderFemale.isChecked()) {
             genderErrorTxt.setVisibility(View.VISIBLE);
             genderErrorTxt.setText("Please choose your gender");
-            return false;
+            isValid = false;
         }
         else{
             genderErrorTxt.setVisibility(View.GONE);
@@ -503,7 +498,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         //check if postal is empty
         if(postalTxt.getText().toString().isEmpty()){
             postalLayout.setError("Please enter your postal code");
-            return false;
+            isValid = false;
         }
         else{
             postalLayout.setError(null);
@@ -512,7 +507,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         //check if street is empty
         if(streetTxt.getText().toString().isEmpty()){
             streetLayout.setError("Please enter your street");
-            return false;
+            isValid = false;
         }
         else{
             streetLayout.setError(null);
@@ -521,7 +516,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         //check if block is empty
         if(blockTxt.getText().toString().isEmpty()){
             blockLayout.setError("Please enter your Block/House Number");
-            return false;
+            isValid = false;
         }
         else{
             blockLayout.setError(null);
@@ -530,16 +525,16 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         //check if mobile number is empty
         if(mobileTxt.getText().toString().isEmpty()){
             phoneLayout.setError("Please enter your Mobile Number");
-            return false;
+            isValid = false;
         }
         else{
             phoneLayout.setError(null);
         }
 
         //check if email is empty
-        if(emailTxt.getText().toString().isEmpty()){
-            emailLayout.setError("Please enter your E-mail address");
-            return false;
+        if(emailTxt.getText().toString().isEmpty() || !emailTxt.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")){
+            emailLayout.setError("Please enter a valid E-mail address");
+            isValid = false;
         }
         else{
             emailLayout.setError(null);
@@ -548,7 +543,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         //check if postal is empty
         if(occupationTxt.getText().toString().isEmpty()){
             jobLayout.setError("Please enter your Occupation");
-            return false;
+            isValid = false;
         }
         else{
             jobLayout.setError(null);
@@ -557,12 +552,12 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         //check if marital status is empty
         if(maritalDropdown.getText().toString().isEmpty()){
             maritalLayout.setError("Please choose your Marital Status");
-            return false;
+            isValid = false;
         }
         else{
             maritalLayout.setError(null);
         }
-        return true;
+        return isValid;
     }
     
     public void sendEmail(String recipient, String subject, String body){
