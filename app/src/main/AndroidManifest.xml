@@ -21,10 +21,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OCBCTeam4Android">
-        <activity android:name=".DashboardActivity">
+        <activity android:name=".DashboardActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".ConfirmationPage">
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".ConfirmationPage"
+            android:screenOrientation="portrait">
             <tools:validation testUrl="https://mxrcxsz.github.io/Assignment-1/confirmation/-MoklpfYxO_VlQ2An3Ct" />
 
             <intent-filter>
@@ -39,17 +42,26 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".SendApplicationCodeActivity" />
-        <activity android:name=".EnterApplicationCodeActivity" />
-        <activity android:name=".ApplicationFormActivity"></activity>
-        <activity android:name=".SelectApplicationType" />
-        <activity android:name=".Select_Apply" />
-        <activity android:name=".SelectApplicationCode"></activity>
-        <activity android:name=".SelectAccountType" />
+        <activity android:name=".SendApplicationCodeActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".EnterApplicationCodeActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ApplicationFormActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".SelectApplicationType"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Select_Apply"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".SelectApplicationCode"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".SelectAccountType"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SelectAccountActivity"
-            android:exported="false" />
-        <activity android:name=".MainActivity">
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -419,6 +419,37 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                                     }
                                 }
                             });
+
+                            //remove input field on success
+                            accessCodeLayout.setVisibility(View.GONE);
+                            pinLayout.setVisibility(View.GONE);
+                            loginBtn.setVisibility(View.GONE);
+                            forgetPwdTxt.setVisibility(View.GONE);
+                            boxLP.height = (int) DipToPixels(220);
+                            accessCodeLayout.setError(null);
+                            pinLayout.setError(null);
+                            emailLbl.setVisibility(View.GONE);
+                            emailLayout.setVisibility(View.GONE);
+                            passwordLbl.setVisibility(View.GONE);
+                            passwordLayout.setVisibility(View.GONE);
+
+                            //change all fields to read-only
+                            titleDropdown.setEnabled(false);
+                            nameTxt.setEnabled(false);
+                            countryDropdown.setEnabled(false);
+                            icTxt.setEnabled(false);
+                            raceDropdown.setEnabled(false);
+                            dobTxt.setEnabled(false);
+                            genderMale.setEnabled(false);
+                            genderFemale.setEnabled(false);
+                            postalTxt.setEnabled(false);
+                            getAddressBtn.setEnabled(false);
+                            streetTxt.setEnabled(false);
+                            blockTxt.setEnabled(false);
+                            unitTxt.setEnabled(false);
+                            mobileTxt.setEnabled(false);
+                            occupationTxt.setEnabled(false);
+                            maritalDropdown.setEnabled(false);
                         }
                         else {
                             // If sign in fails, display a message to the user.
@@ -912,19 +943,6 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                     mAuth.signOut();
                     //get login info
                     SignIn(email, password);
-
-                    //remove input field on success
-                    accessCodeLayout.setVisibility(View.GONE);
-                    pinLayout.setVisibility(View.GONE);
-                    loginBtn.setVisibility(View.GONE);
-                    forgetPwdTxt.setVisibility(View.GONE);
-                    boxLP.height = (int) DipToPixels(220);
-                    accessCodeLayout.setError(null);
-                    pinLayout.setError(null);
-                    emailLbl.setVisibility(View.GONE);
-                    emailLayout.setVisibility(View.GONE);
-                    passwordLbl.setVisibility(View.GONE);
-                    passwordLayout.setVisibility(View.GONE);
                 }
                 isLoggedIn = true;
             }
