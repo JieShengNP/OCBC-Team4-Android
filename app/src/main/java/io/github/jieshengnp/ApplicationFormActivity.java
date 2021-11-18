@@ -74,6 +74,8 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 
     Button getAddressBtn;
 
+    ConstraintLayout.LayoutParams boxLP;
+
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://ocbc-team4-2b3ee-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
     DatabaseReference mDatabase = firebaseDatabase.getReference();
@@ -131,6 +133,10 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         emailTxt = findViewById(R.id.emailTxt);
         occupationTxt = findViewById(R.id.jobTxt);
         backBtn = findViewById(R.id.backBtn);
+        titleDropdown = findViewById(R.id.titleDropdown);
+        countryDropdown = findViewById(R.id.countryDropdown);
+        raceDropdown = findViewById(R.id.raceDropdown);
+        maritalDropdown = findViewById(R.id.maritalDropdown);
 
         postalTxt = findViewById(R.id.postalTxt);
         streetTxt = findViewById(R.id.streetTxt);
@@ -155,312 +161,8 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         forgetPwdTxt.setVisibility(View.GONE);
         genderErrorTxt.setVisibility(View.GONE);
 
-        ConstraintLayout.LayoutParams boxLP = (ConstraintLayout.LayoutParams) box.getLayoutParams();
+        boxLP = (ConstraintLayout.LayoutParams) box.getLayoutParams();
         boxLP.height -= DipToPixels(237);
-
-        accessCodeTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    if (accessCodeTxt.getText().toString().isEmpty() || !accessCodeTxt.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
-                        accessCodeLayout.setError("Please enter a valid E-mail");
-                    } else {
-                        accessCodeLayout.setError(null);
-                    }
-                }
-            }
-        });
-
-        pinTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    if (pinTxt.getText().toString().isEmpty()) {
-                        pinLayout.setError("Please enter your password");
-                    } else {
-                        pinLayout.setError(null);
-                    }
-                }
-            }
-        });
-
-        titleDropdown.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    //check if title is empty
-                    if(titleDropdown.getText().toString().isEmpty()){
-                        titleLayout.setError("Please choose your title");
-                    }
-                    else{
-                        titleLayout.setError(null);
-                    }
-                }
-            }
-        });
-
-        nameTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    //check if title is empty
-                    if(nameTxt.getText().toString().isEmpty()){
-                        nameLayout.setError("Please choose your title");
-                    }
-                    else{
-                        nameLayout.setError(null);
-                    }
-                }
-            }
-        });
-
-        countryDropdown.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    //check if title is empty
-                    if(countryDropdown.getText().toString().isEmpty()){
-                        nationalityLayout.setError("Please choose your title");
-                    }
-                    else{
-                        nationalityLayout.setError(null);
-                    }
-                }
-            }
-        });
-
-        icTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    //check if title is empty
-                    if(icTxt.getText().toString().isEmpty()){
-                        icLayout.setError("Please choose your title");
-                    }
-                    else{
-                        icLayout.setError(null);
-                    }
-                }
-            }
-        });
-
-        raceDropdown.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    //check if title is empty
-                    if(raceDropdown.getText().toString().isEmpty()){
-                        raceLayout.setError("Please choose your title");
-                    }
-                    else{
-                        raceLayout.setError(null);
-                    }
-                }
-            }
-        });
-
-        dobTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    //check if title is empty
-                    if(dobTxt.getText().toString().isEmpty()){
-                        dobLayout.setError("Please choose your title");
-                    }
-                    else{
-                        dobLayout.setError(null);
-                    }
-                }
-            }
-        });
-
-        genderGroup.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    if(!genderMale.isChecked() && !genderFemale.isChecked()) {
-                        genderErrorTxt.setVisibility(View.VISIBLE);
-                        genderErrorTxt.setText("Please choose your gender");
-                    }
-                    else{
-                        genderErrorTxt.setVisibility(View.GONE);
-                    }
-                }
-            }
-        });
-
-        postalTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    //check if title is empty
-                    if(postalTxt.getText().toString().isEmpty()){
-                        postalLayout.setError("Please choose your title");
-                    }
-                    else{
-                        postalLayout.setError(null);
-                    }
-                }
-            }
-        });
-
-        streetTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    //check if title is empty
-                    if(streetTxt.getText().toString().isEmpty()){
-                        streetLayout.setError("Please choose your title");
-                    }
-                    else{
-                        streetLayout.setError(null);
-                    }
-                }
-            }
-        });
-
-        blockTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    //check if title is empty
-                    if(blockTxt.getText().toString().isEmpty()){
-                        blockLayout.setError("Please choose your title");
-                    }
-                    else{
-                        blockLayout.setError(null);
-                    }
-                }
-            }
-        });
-
-        mobileTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    //check if title is empty
-                    if(mobileTxt.getText().toString().isEmpty()){
-                        phoneLayout.setError("Please choose your title");
-                    }
-                    else{
-                        phoneLayout.setError(null);
-                    }
-                }
-            }
-        });
-
-        emailTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    //check if title is empty
-                    if(emailTxt.getText().toString().isEmpty()){
-                        emailLayout.setError("Please choose your title");
-                    }
-                    else{
-                        emailLayout.setError(null);
-                    }
-                }
-            }
-        });
-
-        occupationTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    //check if title is empty
-                    if(occupationTxt.getText().toString().isEmpty()){
-                        jobLayout.setError("Please choose your title");
-                    }
-                    else{
-                        jobLayout.setError(null);
-                    }
-                }
-            }
-        });
-
-        maritalDropdown.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus){
-                    //check if title is empty
-                    if(maritalDropdown.getText().toString().isEmpty()){
-                        maritalLayout.setError("Please choose your title");
-                    }
-                    else{
-                        maritalLayout.setError(null);
-                    }
-                }
-            }
-        });
-
-        //Set Login View according to customer type
-        obaRadioBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean obaChecked = obaRadioBtn.isChecked();
-
-                if (obaChecked == true){
-                    accessCodeLayout.setVisibility(View.VISIBLE);
-                    pinLayout.setVisibility(View.VISIBLE);
-                    loginBtn.setVisibility(View.VISIBLE);
-                    forgetPwdTxt.setVisibility(View.VISIBLE);
-                    boxLP.height = (int) DipToPixels(457);
-                }
-            }
-        });
-
-        ocbcCardRadioBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean ocbcChecked = ocbcCardRadioBtn.isChecked();
-
-                if (ocbcChecked == true){
-                    accessCodeLayout.setVisibility(View.GONE);
-                    pinLayout.setVisibility(View.GONE);
-                    loginBtn.setVisibility(View.GONE);
-                    forgetPwdTxt.setVisibility(View.GONE);
-                    boxLP.height = (int) DipToPixels(220);
-                }
-            }
-        });
-
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (validateLoginInfo()){
-                    Log.v("validated", "Login info is not null");
-                    String email = accessCodeTxt.getText().toString();
-                    String password = pinTxt.getText().toString();
-
-                    mAuth.signOut();
-                    //get login info
-                    SignIn(email, password);
-
-                    //remove input field on success
-                    accessCodeLayout.setVisibility(View.GONE);
-                    pinLayout.setVisibility(View.GONE);
-                    loginBtn.setVisibility(View.GONE);
-                    forgetPwdTxt.setVisibility(View.GONE);
-                    boxLP.height = (int) DipToPixels(220);
-                    accessCodeLayout.setError(null);
-                    pinLayout.setError(null);
-                }
-                loginIsPressed = true;
-            }
-        });
-
-        // Add Salutations
-        titleDropdown = findViewById(R.id.titleDropdown);
-        ArrayAdapter<String> salutationAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, salutations);
-        titleDropdown.setAdapter(salutationAdapter);
-
-        titleDropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedTitle = parent.getAdapter().getItem(position).toString();
-            }
-        });
 
         //Add Nationalities
         countryDropdown = findViewById(R.id.countryDropdown);
@@ -648,6 +350,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                 }
             }
         });
+        validateInputInfo();
     }
 
     private boolean validateLoginInfo() {
@@ -906,6 +609,312 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                 dp,
                 getResources().getDisplayMetrics()
         );
+    }
+
+    public void validateInputInfo(){
+        accessCodeTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    if (accessCodeTxt.getText().toString().isEmpty() || !accessCodeTxt.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
+                        accessCodeLayout.setError("Please enter a valid E-mail");
+                    } else {
+                        accessCodeLayout.setError(null);
+                    }
+                }
+            }
+        });
+
+        pinTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    if (pinTxt.getText().toString().isEmpty()) {
+                        pinLayout.setError("Please enter your password");
+                    } else {
+                        pinLayout.setError(null);
+                    }
+                }
+            }
+        });
+
+        titleDropdown.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    //check if title is empty
+                    if(titleDropdown.getText().toString().isEmpty()){
+                        titleLayout.setError("Please choose your title");
+                    }
+                    else{
+                        titleLayout.setError(null);
+                    }
+                }
+            }
+        });
+
+        nameTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    //check if title is empty
+                    if(nameTxt.getText().toString().isEmpty()){
+                        nameLayout.setError("Please enter your name");
+                    }
+                    else{
+                        nameLayout.setError(null);
+                    }
+                }
+            }
+        });
+
+        countryDropdown.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    //check if title is empty
+                    if(countryDropdown.getText().toString().isEmpty()){
+                        nationalityLayout.setError("Please choose your country");
+                    }
+                    else{
+                        nationalityLayout.setError(null);
+                    }
+                }
+            }
+        });
+
+        icTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    //check if title is empty
+                    if(icTxt.getText().toString().isEmpty()){
+                        icLayout.setError("Please enter your IC");
+                    }
+                    else{
+                        icLayout.setError(null);
+                    }
+                }
+            }
+        });
+
+        raceDropdown.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    //check if title is empty
+                    if(raceDropdown.getText().toString().isEmpty()){
+                        raceLayout.setError("Please choose your race");
+                    }
+                    else{
+                        raceLayout.setError(null);
+                    }
+                }
+            }
+        });
+
+        dobTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    //check if title is empty
+                    if(dobTxt.getText().toString().isEmpty()){
+                        dobLayout.setError("Please choose your Date of Birth");
+                    }
+                    else{
+                        dobLayout.setError(null);
+                    }
+                }
+            }
+        });
+
+        genderGroup.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    if(!genderMale.isChecked() && !genderFemale.isChecked()) {
+                        genderErrorTxt.setVisibility(View.VISIBLE);
+                        genderErrorTxt.setText("Please choose your gender");
+                    }
+                    else{
+                        genderErrorTxt.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
+
+        postalTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    //check if title is empty
+                    if(postalTxt.getText().toString().isEmpty()){
+                        postalLayout.setError("Please enter your postal code");
+                    }
+                    else{
+                        postalLayout.setError(null);
+                    }
+                }
+            }
+        });
+
+        streetTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    //check if title is empty
+                    if(streetTxt.getText().toString().isEmpty()){
+                        streetLayout.setError("Please enter your street");
+                    }
+                    else{
+                        streetLayout.setError(null);
+                    }
+                }
+            }
+        });
+
+        blockTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    //check if title is empty
+                    if(blockTxt.getText().toString().isEmpty()){
+                        blockLayout.setError("Please enter your block");
+                    }
+                    else{
+                        blockLayout.setError(null);
+                    }
+                }
+            }
+        });
+
+        mobileTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    //check if title is empty
+                    if(mobileTxt.getText().toString().isEmpty()){
+                        phoneLayout.setError("Please enter your mobile number");
+                    }
+                    else{
+                        phoneLayout.setError(null);
+                    }
+                }
+            }
+        });
+
+        emailTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    //check if title is empty
+                    if(emailTxt.getText().toString().isEmpty()){
+                        emailLayout.setError("Please enter your email");
+                    }
+                    else{
+                        emailLayout.setError(null);
+                    }
+                }
+            }
+        });
+
+        occupationTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    //check if title is empty
+                    if(occupationTxt.getText().toString().isEmpty()){
+                        jobLayout.setError("Please enter your occupation");
+                    }
+                    else{
+                        jobLayout.setError(null);
+                    }
+                }
+            }
+        });
+
+        maritalDropdown.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus){
+                    //check if title is empty
+                    if(maritalDropdown.getText().toString().isEmpty()){
+                        maritalLayout.setError("Please choose your marital status");
+                    }
+                    else{
+                        maritalLayout.setError(null);
+                    }
+                }
+            }
+        });
+
+        //Set Login View according to customer type
+        obaRadioBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean obaChecked = obaRadioBtn.isChecked();
+
+                if (obaChecked == true){
+                    accessCodeLayout.setVisibility(View.VISIBLE);
+                    pinLayout.setVisibility(View.VISIBLE);
+                    loginBtn.setVisibility(View.VISIBLE);
+                    forgetPwdTxt.setVisibility(View.VISIBLE);
+                    boxLP.height = (int) DipToPixels(457);
+                }
+            }
+        });
+
+        ocbcCardRadioBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean ocbcChecked = ocbcCardRadioBtn.isChecked();
+
+                if (ocbcChecked == true){
+                    accessCodeLayout.setVisibility(View.GONE);
+                    pinLayout.setVisibility(View.GONE);
+                    loginBtn.setVisibility(View.GONE);
+                    forgetPwdTxt.setVisibility(View.GONE);
+                    boxLP.height = (int) DipToPixels(220);
+                }
+            }
+        });
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (validateLoginInfo()){
+                    Log.v("validated", "Login info is not null");
+                    String email = accessCodeTxt.getText().toString();
+                    String password = pinTxt.getText().toString();
+
+                    mAuth.signOut();
+                    //get login info
+                    SignIn(email, password);
+
+                    //remove input field on success
+                    accessCodeLayout.setVisibility(View.GONE);
+                    pinLayout.setVisibility(View.GONE);
+                    loginBtn.setVisibility(View.GONE);
+                    forgetPwdTxt.setVisibility(View.GONE);
+                    boxLP.height = (int) DipToPixels(220);
+                    accessCodeLayout.setError(null);
+                    pinLayout.setError(null);
+                }
+                loginIsPressed = true;
+            }
+        });
+
+        // Add Salutations
+        titleDropdown = findViewById(R.id.titleDropdown);
+        ArrayAdapter<String> salutationAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, salutations);
+        titleDropdown.setAdapter(salutationAdapter);
+
+        titleDropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedTitle = parent.getAdapter().getItem(position).toString();
+            }
+        });
     }
 
     @Override
