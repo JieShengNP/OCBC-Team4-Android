@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -28,6 +29,12 @@ public class SelectApplicationType extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("Applicant", (Serializable) newApplicant);
                 Intent in = new Intent(v.getContext(), ApplicationFormActivity.class);
+                Intent getIn = getIntent();
+                String applicationId = getIn.getStringExtra("ApplicationID");
+                if(applicationId != null) {
+                    Log.d("", ""+applicationId);
+                    bundle.putString("ApplicationID",applicationId);
+                }
                 in.putExtras(bundle);
                 v.getContext().startActivity(in);
             }
@@ -36,7 +43,16 @@ public class SelectApplicationType extends AppCompatActivity {
         formBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(v.getContext(), ApplicationFormActivity.class));
+                Bundle bundle = new Bundle();
+                Intent in = new Intent(v.getContext(), ApplicationFormActivity.class);
+                Intent getIn = getIntent();
+                String applicationId = getIn.getStringExtra("ApplicationID");
+                if(applicationId != null) {
+                    Log.d("", ""+applicationId);
+                    bundle.putString("ApplicationID",applicationId);
+                }
+                in.putExtras(bundle);
+                v.getContext().startActivity(in);
             }
         });
     }
