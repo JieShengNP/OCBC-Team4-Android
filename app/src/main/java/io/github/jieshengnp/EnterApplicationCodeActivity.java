@@ -60,10 +60,9 @@ public class EnterApplicationCodeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 for(Application application : applicationList){
                     if(applicationCodeTxt.getText().toString().equals(application.getApplicationCode())){
-                        Log.d("TEST", "TEST");
                         Bundle extras = new Bundle();
-                        extras.putSerializable("Application", (Serializable) application);
-                        Intent in = new Intent(EnterApplicationCodeActivity.this, ApplicationFormActivity.class);
+                        extras.putString("ApplicationID", application.getApplicationID());
+                        Intent in = new Intent(EnterApplicationCodeActivity.this, SelectApplicationType.class);
                         in.putExtras(extras);
                         startActivity(in);
                     }
