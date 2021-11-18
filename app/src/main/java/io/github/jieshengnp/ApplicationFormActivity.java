@@ -3,8 +3,10 @@ package io.github.jieshengnp;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -20,6 +22,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -29,6 +35,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -39,15 +46,20 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Random;
 
 public class ApplicationFormActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
@@ -66,7 +78,12 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
     Applicant applicant;
     Applicant currentApplicant;
     Application application;
-    ImageView backBtn;
+    ImageView backBtn, uploadedSelfie;
+    Button uploadSelfie,confirmButton;
+    ActivityResultLauncher<Intent> activityResultLauncher;
+    Bitmap imageBitmap;
+    private static final int REQUEST_CAMERA_CODE = 100;
+    StorageReference storageRef = FirebaseStorage.getInstance("gs://ocbc-team4-2b3ee.appspot.com/").getReference();
 
     boolean isLoggedIn;
 
@@ -145,6 +162,9 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         streetTxt = findViewById(R.id.streetTxt);
         blockTxt = findViewById(R.id.blockTxt);
         getAddressBtn = findViewById(R.id.getAddressBtn);
+
+        uploadedSelfie = findViewById(R.id.imageView);
+        uploadSelfie = findViewById(R.id.uploadBtn);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -279,12 +299,37 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
             }
         });
 
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    Bundle extras = result.getData().getExtras();
+                    imageBitmap = (Bitmap) extras.get("data");
+                    uploadedSelfie.setImageBitmap(imageBitmap);
+
+
+                }
+
+            }
+        });
+
+        uploadSelfie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    activityResultLauncher.launch(intent);
+                } else {
+                    Toast.makeText(ApplicationFormActivity.this, "Cant Open",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         nextBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
-
 
                 if(validateInput()){
                     applicant = new Applicant();
@@ -325,6 +370,11 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                     //Marital Status
                     applicant.setMartial(selectedMarital);
 
+                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                    imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
+                    byte[] bb = bytes.toByteArray();
+                    uploadFirebase(bb, applicant.getNRIC());
+
                     if (progressBar2.getProgress() == 100) {
                         Log.d("Application Key", "" + application.getApplicationID());
 //                        key = mDatabase.child("Application").push().getKey();
@@ -356,6 +406,28 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
             }
         });
         validateInputInfo();
+    }
+
+    private void uploadFirebase(byte[]bb, String nric){
+
+        StorageReference imagePath = storageRef.child("verificationImgs/"+nric+".jpg");
+        UploadTask uploadTask = imagePath.putBytes(bb);
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(ApplicationFormActivity.this,"Sucessfully Uploaded Picture",Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.v("Err",e.getMessage());
+                Toast.makeText(ApplicationFormActivity.this,"Failed To Upload Picture",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
     }
 
     private boolean validateLoginInfo() {
@@ -966,7 +1038,6 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         else{
             stringMonth = "" + month;
         }
-
 
         String date = stringDay + "/" + stringMonth + "/" + year;
         dobTxt.setText(date);

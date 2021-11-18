@@ -7,71 +7,158 @@
     tools:context=".SelectAccountActivity">
 
     <TextView
+        android:id="@+id/Acc360Btn"
+        android:layout_width="374dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="28dp"
+        android:background="#F6F6F6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/AccMSABtn"
+        android:layout_width="374dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="28dp"
+        android:background="#F6F6F6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Acc360Btn" />
+
+    <TextView
+        android:id="@+id/AccFRANKBtn"
+        android:layout_width="374dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="28dp"
+        android:background="#F6F6F6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AccMSABtn" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginEnd="14dp"
+        android:text="What is this account?"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AccFRANKBtn" />
+
+    <TextView
+        android:id="@+id/descTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="14dp"
+        android:text="This code is for the account holders
+to have access to the joint account application
+form to fill in their personal details."
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
         android:layout_marginTop="48dp"
-        android:layout_marginEnd="339dp"
-        android:layout_marginBottom="664dp"
         android:text="Select Your Account"
+        android:textSize="22dp"
         android:textStyle="bold"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/Acc360Btn"
-        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="55dp"
-        android:layout_marginEnd="35dp"
-        android:layout_marginBottom="10dp"
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/Acc360Btn"
+        app:layout_constraintEnd_toEndOf="@+id/Acc360Btn"
+        app:layout_constraintTop_toTopOf="@+id/Acc360Btn"
+        app:srcCompat="@android:drawable/ic_dialog_info"
+        app:tint="#555555" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/AccMSABtn"
+        app:layout_constraintEnd_toEndOf="@+id/AccMSABtn"
+        app:layout_constraintTop_toTopOf="@+id/AccMSABtn"
+        app:srcCompat="@android:drawable/ic_dialog_info"
+        app:tint="#555555" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/AccFRANKBtn"
+        app:layout_constraintEnd_toEndOf="@+id/AccFRANKBtn"
+        app:layout_constraintTop_toTopOf="@+id/AccFRANKBtn"
+        app:srcCompat="@android:drawable/ic_dialog_info"
+        app:tint="#555555" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="21dp"
         android:text="360 Account"
-        android:textSize="12dp"
-        app:backgroundTint="#ffffff"
-        app:layout_constraintBottom_toTopOf="@+id/AccMSABtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/Acc360Btn"
+        app:layout_constraintStart_toStartOf="@+id/Acc360Btn"
+        app:layout_constraintTop_toTopOf="@+id/Acc360Btn" />
 
-    <Button
-        android:id="@+id/AccMSABtn"
-        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-        android:layout_width="0dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="35dp"
-        android:layout_marginBottom="10dp"
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="21dp"
         android:text="Monthly Savings Account"
-        android:textSize="12dp"
-        app:backgroundTint="#ffffff"
-        app:layout_constraintBottom_toTopOf="@+id/AccFRANKBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Acc360Btn" />
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/AccMSABtn"
+        app:layout_constraintStart_toStartOf="@+id/AccMSABtn"
+        app:layout_constraintTop_toTopOf="@+id/AccMSABtn" />
 
-    <Button
-        android:id="@+id/AccFRANKBtn"
-        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-        android:layout_width="0dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="35dp"
-        android:layout_marginBottom="401dp"
-        android:text="FRANK Account"
-        android:textSize="12dp"
-        app:backgroundTint="#ffffff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AccMSABtn" />
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="21dp"
+        android:text="Frank Account"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/AccFRANKBtn"
+        app:layout_constraintStart_toStartOf="@+id/AccFRANKBtn"
+        app:layout_constraintTop_toTopOf="@+id/AccFRANKBtn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

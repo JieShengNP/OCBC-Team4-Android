@@ -43,7 +43,6 @@
         <activity android:name=".EnterApplicationCodeActivity" />
         <activity android:name=".ApplicationFormActivity"></activity>
         <activity android:name=".SelectApplicationType" />
-        <activity android:name=".Select_Apply" />
         <activity android:name=".SelectApplicationCode"></activity>
         <activity android:name=".SelectAccountType" />
         <activity
@@ -57,5 +56,10 @@
             </intent-filter>
         </activity>
     </application>
-
+    <queries>
+        <!-- Camera -->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
 </manifest>
