@@ -280,8 +280,12 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         });
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+
+
+
                 if(validateInput()){
                     applicant = new Applicant();
                     //Title
