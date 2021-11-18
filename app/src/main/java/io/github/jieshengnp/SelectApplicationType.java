@@ -1,13 +1,11 @@
 package io.github.jieshengnp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.Serializable;
 
@@ -32,7 +30,6 @@ public class SelectApplicationType extends AppCompatActivity {
                 Intent getIn = getIntent();
                 String applicationId = getIn.getStringExtra("ApplicationID");
                 if(applicationId != null) {
-                    Log.d("", ""+applicationId);
                     bundle.putString("ApplicationID",applicationId);
                 }
                 in.putExtras(bundle);
@@ -46,14 +43,34 @@ public class SelectApplicationType extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 Intent in = new Intent(v.getContext(), ApplicationFormActivity.class);
                 Intent getIn = getIntent();
-                String applicationId = getIn.getStringExtra("ApplicationID");
-                if(applicationId != null) {
-                    Log.d("", ""+applicationId);
-                    bundle.putString("ApplicationID",applicationId);
+                Application application = (Application) getIn.getSerializableExtra("Application");
+                if(application != null) {
+                    bundle.putSerializable("Application",application);
                 }
                 in.putExtras(bundle);
                 v.getContext().startActivity(in);
             }
         });
+    }
+
+    private Applicant sampleMyInfo(){
+        Applicant applicant = new Applicant(
+                "Mr",
+                "Chen Ah Meng",
+                "Singapore",
+                "T0123456A",
+                "CHINESE",
+                "21/03/2001",
+                "Male",
+                "650358",
+                "BUKIT BATOK STREET 31",
+                "359",
+                "#05-313",
+                "81234567",
+                "yeojax2@gmail.com",
+                "Engineer",
+                "MARRIED"
+        );
+        return applicant;
     }
 }

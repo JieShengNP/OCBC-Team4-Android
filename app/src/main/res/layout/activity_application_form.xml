@@ -288,7 +288,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+            app:layout_constraintTop_toBottomOf="@+id/applicationCodeLbl" />
 
         <TextView
             android:id="@+id/textView8"
@@ -317,7 +317,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/applicationCodeLbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -882,6 +882,32 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/UploadIcLbl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="28dp"
+            android:text="Upload NRIC/Passport picture"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/maritalLayout" />
+
+        <Button
+            android:id="@+id/uploadBtn"
+            android:layout_width="184dp"
+            android:layout_height="51dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="15dp"
+            android:text="Upload picture"
+            android:textColor="#555555"
+            android:textSize="13sp"
+            app:backgroundTint="#DFDFDF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/UploadIcLbl" />
+
         <Button
             android:id="@+id/nextBtn"
             android:layout_width="138dp"
@@ -891,7 +917,7 @@
             app:backgroundTint="#555555"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/maritalLayout" />
+            app:layout_constraintTop_toBottomOf="@id/uploadBtn" />
 
         <TextView
             android:id="@+id/genderErrorTxt"
@@ -905,6 +931,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/genderLbl"
             app:layout_constraintTop_toBottomOf="@+id/dobLayout" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="87dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="28dp"
+            app:layout_constraintBottom_toBottomOf="@+id/uploadBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/uploadBtn"
+            tools:srcCompat="@tools:sample/avatars" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

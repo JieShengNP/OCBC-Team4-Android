@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class SendApplicationCodeActivity extends AppCompatActivity {
 
     Button sendCodeBtn;
-    TextView emailTxt;
+    TextView emailTxt, applicationCodeLbl;
     Application application;
     ImageView backBtn;
 
@@ -26,9 +26,12 @@ public class SendApplicationCodeActivity extends AppCompatActivity {
         sendCodeBtn = findViewById(R.id.sendCodeBtn);
         emailTxt = findViewById(R.id.emailTxt);
         backBtn = findViewById(R.id.backBtn);
+        applicationCodeLbl = findViewById(R.id.applicationCodeLbl);
 
         Intent getIn = getIntent();
         application = (Application) getIn.getSerializableExtra("Application");
+
+        applicationCodeLbl.setText(application.getApplicationCode());
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override

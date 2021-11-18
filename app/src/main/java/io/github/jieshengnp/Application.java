@@ -29,6 +29,10 @@ public class Application implements Serializable {
         applicantList.add(applicant);
     }
 
+    public void setApplicant(int index,Applicant applicant){
+        this.applicantList.set(index, applicant);
+    }
+
     public String getApplicationCode() {
         return applicationCode;
     }

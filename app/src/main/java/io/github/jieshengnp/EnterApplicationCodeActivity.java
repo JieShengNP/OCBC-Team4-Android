@@ -1,16 +1,13 @@
 package io.github.jieshengnp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,7 +15,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +57,8 @@ public class EnterApplicationCodeActivity extends AppCompatActivity {
                 for(Application application : applicationList){
                     if(applicationCodeTxt.getText().toString().equals(application.getApplicationCode())){
                         Bundle extras = new Bundle();
-                        extras.putString("ApplicationID", application.getApplicationID());
+//                        extras.putString("ApplicationID", application.getApplicationID());
+                        extras.putSerializable("Application", application);
                         Intent in = new Intent(EnterApplicationCodeActivity.this, SelectApplicationType.class);
                         in.putExtras(extras);
                         startActivity(in);
