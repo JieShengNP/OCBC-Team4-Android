@@ -420,7 +420,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
-                android:inputType="text"
+                android:inputType="textPassword"
                 android:textSize="16sp"
                 tools:layout_editor_absoluteX="30dp"
                 tools:layout_editor_absoluteY="549dp" />
@@ -548,7 +548,7 @@
                 android:id="@+id/ocbcCardRadioBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Any OCBC carrd (ATM, Credit or Debit)"
+                android:text="Any OCBC card (ATM, Credit or Debit)"
                 app:buttonTint="#707070" />
         </RadioGroup>
 

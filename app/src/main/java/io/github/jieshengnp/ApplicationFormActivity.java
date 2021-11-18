@@ -21,6 +21,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -28,8 +29,15 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -40,10 +48,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 
 public class ApplicationFormActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
     TextView forgetPwdTxt, box, genderErrorTxt;
     TextInputLayout accessCodeLayout, pinLayout, titleLayout, nameLayout, nationalityLayout, icLayout, raceLayout, dobLayout, postalLayout, streetLayout, blockLayout, unitLayout, phoneLayout, emailLayout, jobLayout, maritalLayout;
     TextInputEditText accessCodeTxt, pinTxt, nameTxt, icTxt, dobTxt, postalTxt, streetTxt, blockTxt, unitTxt, mobileTxt, emailTxt, occupationTxt;
@@ -54,12 +65,16 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
     ProgressBar progressBar1, progressBar2, progressBar3;
     String key, selectedTitle, selectedCountry, selectedRace, selectedMarital, applicationId;
     Applicant applicant;
+    Applicant currentApplicant;
     Application application;
     ImageView backBtn;
+
+    boolean isLoggedIn;
 
     Button getAddressBtn;
 
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://ocbc-team4-2b3ee-default-rtdb.asia-southeast1.firebasedatabase.app/");
+
     DatabaseReference mDatabase = firebaseDatabase.getReference();
     String[] salutations = {"Mr", "Mrs", "Ms", "Miss", "Mdm", "Dr"};
     String[] races = {"CHINESE", "EURASIAN", "INDIAN", "MALAY", "OTHER RACES"};
@@ -122,6 +137,10 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         blockTxt = findViewById(R.id.blockTxt);
         getAddressBtn = findViewById(R.id.getAddressBtn);
 
+        mAuth = FirebaseAuth.getInstance();
+
+        isLoggedIn = false;
+
 //      End of initialise code
 
 
@@ -172,13 +191,20 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
             @Override
             public void onClick(View v) {
                 if (validateLoginInfo()){
+                    Log.v("validated", "Login info is not null");
+                    String email = accessCodeTxt.getText().toString();
+                    String password = pinTxt.getText().toString();
+
+                    mAuth.signOut();
+                    //get login info
+                    SignIn(email, password);
+
+                    //remove input field on success
                     accessCodeLayout.setVisibility(View.GONE);
                     pinLayout.setVisibility(View.GONE);
                     loginBtn.setVisibility(View.GONE);
                     forgetPwdTxt.setVisibility(View.GONE);
                     boxLP.height = (int) DipToPixels(220);
-
-                    Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
                     accessCodeLayout.setError(null);
                     pinLayout.setError(null);
                 }
@@ -390,6 +416,72 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         }
 
         return isValid;
+    }
+
+    public void SignIn(String email, String password){
+        Log.v("test", "1");
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.v("test", "2");
+                        if (task.isSuccessful()) {
+                            Log.v("success", "signin successful");
+                            // Sign in success, update UI with the signed-in user's information
+                            Toast.makeText(ApplicationFormActivity.this, "Successfully logged in.", Toast.LENGTH_SHORT).show();
+
+                            //retrieve data
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            DatabaseReference ref = firebaseDatabase.getReference().child("User").child(user.getUid());
+                            ref.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                    if (!task.isSuccessful()){
+                                        Toast.makeText(ApplicationFormActivity.this, "An error occurred while retrieving data.", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        Log.v("retrievedone", "Data retreiving");
+                                        currentApplicant = task.getResult().getValue(Applicant.class);
+                                        titleDropdown.setText(currentApplicant.getTitle());
+                                        nameTxt.setText(currentApplicant.getName());
+                                        countryDropdown.setText(currentApplicant.getNationality());
+                                        icTxt.setText(currentApplicant.getNRIC());
+                                        raceDropdown.setText(currentApplicant.getRace());
+                                        dobTxt.setText(currentApplicant.getDOB());
+
+                                        if (currentApplicant.getGender().equals("Male")){
+                                            genderMale.setChecked(true);
+                                            genderFemale.setChecked(false);
+                                        }
+                                        else if (currentApplicant.getGender().equals("Female")){
+                                            genderMale.setChecked(false);
+                                            genderFemale.setChecked(true);
+                                        }
+
+                                        postalTxt.setText(currentApplicant.getPostal());
+                                        streetTxt.setText(currentApplicant.getStreet());
+                                        blockTxt.setText(currentApplicant.getBlock());
+                                        unitTxt.setText(currentApplicant.getUnit());
+                                        mobileTxt.setText(currentApplicant.getMobile());
+                                        occupationTxt.setText(currentApplicant.getOccupation());
+                                        maritalDropdown.setText(currentApplicant.getMartial());
+
+                                        isLoggedIn = true;
+                                    }
+                                }
+                            });
+                        }
+                        else {
+                            // If sign in fails, display a message to the user.
+                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                Toast.makeText(ApplicationFormActivity.this, "Incorrect Email or Password.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ApplicationFormActivity.this, "Error Logging In.", Toast.LENGTH_SHORT).show();
+                                Log.v("test", task.getException().getMessage());
+                            }
+                        }
+                    }
+                });
     }
 
     @Override
