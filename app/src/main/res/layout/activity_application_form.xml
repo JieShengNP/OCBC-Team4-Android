@@ -836,7 +836,7 @@
                 android:id="@+id/passwordTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="text|textPassword"
                 android:textSize="14sp"
                 tools:layout_editor_absoluteX="30dp"
                 tools:layout_editor_absoluteY="549dp" />
