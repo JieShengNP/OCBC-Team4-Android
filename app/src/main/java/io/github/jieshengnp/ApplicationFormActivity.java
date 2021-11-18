@@ -919,7 +919,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                 public void onFocusChange(View v, boolean hasFocus) {
                     if (!hasFocus) {
                         //check if title is empty
-                        if (emailTxt.getText().toString().isEmpty() || !accessCodeTxt.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
+                        if (emailTxt.getText().toString().isEmpty() || !emailTxt.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")) {
                             emailLayout.setError("Please enter a valid email");
                         } else {
                             emailLayout.setError(null);
