@@ -21,11 +21,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OCBCTeam4Android">
-        <activity android:name=".DashboardActivity">
-        </activity>
+        <activity android:name=".DashboardActivity"></activity>
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".ConfirmationPage">
-            <tools:validation testUrl="https://mxrcxsz.github.io/Assignment-1/confirmation/-MoklpfYxO_VlQ2An3Ct" />
+            <tools:validation testUrl='https://mxrcxsz.github.io/Assignment-1/confirmation/-MonHZFjUAUJpR02hJp6"' />
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -35,13 +34,26 @@
 
                 <data
                     android:host="mxrcxsz.github.io"
-                    android:pathPrefix="/Assignment-1/confirmation"
-                    android:scheme="https" />
+                    android:scheme="https"
+                    android:pathPrefix="/Assignment-1/confirmation" />
             </intent-filter>
         </activity>
         <activity android:name=".SendApplicationCodeActivity" />
         <activity android:name=".EnterApplicationCodeActivity" />
-        <activity android:name=".ApplicationFormActivity"></activity>
+        <activity android:name=".ApplicationFormActivity">
+            <tools:validation testUrl="https://mxrcxsz.github.io/Assignment-1/applicationform/-MonKg_evcudll3bMUYG" />
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="mxrcxsz.github.io"
+                    android:pathPrefix="/Assignment-1/applicationform" />
+            </intent-filter>
+        </activity>
         <activity android:name=".SelectApplicationType" />
         <activity android:name=".Select_Apply" />
         <activity android:name=".SelectApplicationCode"></activity>

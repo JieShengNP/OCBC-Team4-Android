@@ -29,9 +29,9 @@ public class SelectApplicationType extends AppCompatActivity {
                 bundle.putSerializable("Applicant", (Serializable) newApplicant);
                 Intent in = new Intent(v.getContext(), ApplicationFormActivity.class);
                 Intent getIn = getIntent();
-                String applicationId = getIn.getStringExtra("ApplicationID");
-                if(applicationId != null) {
-                    bundle.putString("ApplicationID",applicationId);
+                Application application = (Application) getIn.getSerializableExtra("Application");
+                if(application != null) {
+                    bundle.putSerializable("Application",application);
                 }
                 in.putExtras(bundle);
                 v.getContext().startActivity(in);

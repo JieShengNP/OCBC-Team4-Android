@@ -36,6 +36,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -49,8 +50,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -310,8 +309,6 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                     Bundle extras = result.getData().getExtras();
                     imageBitmap = (Bitmap) extras.get("data");
                     uploadedSelfie.setImageBitmap(imageBitmap);
-
-
                 }
 
             }
@@ -378,15 +375,15 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                     imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
                     byte[] bb = bytes.toByteArray();
                     uploadFirebase(bb, applicant.getNRIC());
-
+//                  if progress bar 2 is lighted up, means is second user
                     if (progressBar2.getProgress() == 100) {
                         Log.d("Application Key", "" + application.getApplicationID());
 //                        key = mDatabase.child("Application").push().getKey();
                         application.setApplicant(1, applicant);
                         mDatabase.child("Application").child(application.getApplicationID()).setValue(application);
 
-//                        String notifyEmailBody = "Please continue to the review and confirmation of details";
-//                        sendEmail("" + application.getApplicantList().get(0).getEmail(), "OCBC Joint Account Creation", "" + notifyEmailBody);
+                        String notifyEmailBody = "Hi " + application.getApplicantList().get(0).getName() + ", you may proceed to review and confirm the details of your joint account application\n\nPlease use this link to continue\n";
+                        sendEmail("" + application.getApplicantList().get(0).getEmail(), "OCBC Joint Account Creation", "" + notifyEmailBody);
 
                         Bundle extras = new Bundle();
                         Intent in = new Intent(v.getContext(), ConfirmationPage.class);
@@ -428,10 +425,6 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                 Toast.makeText(ApplicationFormActivity.this,"Failed To Upload Picture",Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
-
     }
 
     private boolean validateLoginInfo() {
@@ -603,7 +596,6 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
             applicant = singPassData;
             applicant.setSingPass(true);
 
-
             //Title
             titleDropdown.setText(applicant.getTitle(), false);
 
@@ -677,68 +669,86 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 
         //check if title is empty
         if(titleDropdown.getText().toString().isEmpty()){
+            Log.d("Tag", "1");
             isValid = false;
         }
 
         //check if name is empty
         if(nameTxt.getText().toString().isEmpty()){
+            Log.d("Tag", "2");
             isValid = false;
         }
 
         //check if nationality is empty
         if(countryDropdown.getText().toString().isEmpty()){
+            Log.d("Tag", "3");
             isValid = false;
         }
 
         //check if ic is empty
         if(icTxt.getText().toString().isEmpty()){
+            Log.d("Tag", "4");
             isValid = false;
         }
 
         //check if race is empty
         if(raceDropdown.getText().toString().isEmpty()){
+            Log.d("Tag", "5");
             isValid = false;
         }
 
         //check if ic is empty
         if(dobTxt.getText().toString().isEmpty()){
+            Log.d("Tag", "6");
             isValid = false;
         }
 
         //check if Gender is empty
         if(!genderMale.isChecked() && !genderFemale.isChecked()) {
+            Log.d("Tag", "7");
             isValid = false;
         }
 
         //check if postal is empty
         if(postalTxt.getText().toString().isEmpty()){
+            Log.d("Tag", "8");
             isValid = false;
         }
 
         //check if street is empty
         if(streetTxt.getText().toString().isEmpty()){
+            Log.d("Tag", "9");
             isValid = false;
         }
 
         //check if block is empty
         if(blockTxt.getText().toString().isEmpty()){
+            Log.d("Tag", "10");
             isValid = false;
         }
 
         //check if mobile number is empty
         if(mobileTxt.getText().toString().isEmpty()){
+            Log.d("Tag", "11");
             isValid = false;
         }
 
 
         //check if postal is empty
         if(occupationTxt.getText().toString().isEmpty()){
+            Log.d("Tag", "12");
             isValid = false;
         }
 
         //check if marital status is empty
         if(maritalDropdown.getText().toString().isEmpty()){
+            Log.d("Tag", "13");
             isValid = false;
+        }
+
+        if(imageBitmap == null){
+            isValid = false;
+            Toast.makeText(getApplicationContext(), "Please upload a selfie with your NRIC/Passport", Toast.LENGTH_SHORT).show();
         }
 
         //if user is already logged in
@@ -752,8 +762,8 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
             }
         }
 
-        if(!isValid){
-            Toast.makeText(getApplicationContext(), "Some errors were found. ", Toast.LENGTH_SHORT).show();
+        if(isValid == false){
+            Toast.makeText(getApplicationContext(), "Please fill in all the fields", Toast.LENGTH_SHORT).show();
         }
 
         return isValid;
