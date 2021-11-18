@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -70,7 +69,6 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_form);
-
 
 //      Initialise data
         forgetPwdTxt = findViewById(R.id.forgetPwdTxt);
@@ -319,56 +317,67 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                     //Title
                     applicant.setTitle(selectedTitle);
 
-                        //Nationality
-                        applicant.setNationality(selectedCountry);
+                    //Nationality
+                    applicant.setNationality(selectedCountry);
 
-                        //NRIC
-                        applicant.setNRIC(icTxt.getText().toString());
+                    //NRIC
+                    applicant.setNRIC(icTxt.getText().toString());
 
-                        //Race
-                        applicant.setRace(selectedRace);
+                    //Race
+                    applicant.setRace(selectedRace);
 
-                        //DOB
-                        applicant.setDOB(dobTxt.getText().toString());
+                    //DOB
+                    applicant.setDOB(dobTxt.getText().toString());
 
-                        //Gender
-                        RadioButton genderButton = findViewById(genderGroup.getCheckedRadioButtonId());
-                        if (genderButton != null) {
-                            applicant.setGender(genderButton.getText().toString());
-                        }
+                    //Gender
+                    RadioButton genderButton = findViewById(genderGroup.getCheckedRadioButtonId());
+                    applicant.setGender(genderButton.getText().toString());
 
-                        //Address
-                        applicant.setPostal(postalTxt.getText().toString());
-                        applicant.setStreet(streetTxt.getText().toString());
-                        applicant.setBlock(blockTxt.getText().toString());
-                        applicant.setUnit(unitTxt.getText().toString());
+                    //Address
+                    applicant.setPostal(postalTxt.getText().toString());
+                    applicant.setStreet(streetTxt.getText().toString());
+                    applicant.setBlock(blockTxt.getText().toString());
+                    applicant.setUnit(unitTxt.getText().toString());
 
-                        //Mobile
-                        applicant.setMobile(mobileTxt.getText().toString());
+                    //Mobile
+                    applicant.setMobile(mobileTxt.getText().toString());
 
-                        //Email
-                        applicant.setEmail(emailTxt.getText().toString());
+                    //Email
+                    applicant.setEmail(emailTxt.getText().toString());
 
-                        //Occupation
-                        applicant.setOccupation(occupationTxt.getText().toString());
+                    //Occupation
+                    applicant.setOccupation(occupationTxt.getText().toString());
 
-                        //Marital Status
-                        applicant.setMartial(selectedMarital);
+                    //Marital Status
+                    applicant.setMartial(selectedMarital);
 
                     if (progressBar2.getProgress() == 100) {
-                        String notifyEmailBody = "";
-                        sendEmail("" + application.getApplicantList().get(0).getEmail(), "OCBC Joint Account Creation", "" + notifyEmailBody);
+                        Log.d("Application Key", "" + application.getApplicationID());
+//                        key = mDatabase.child("Application").push().getKey();
+                        application.setApplicant(1, applicant);
+                        mDatabase.child("Application").child(application.getApplicationID()).setValue(application);
+
+//                        String notifyEmailBody = "Please continue to the review and confirmation of details";
+//                        sendEmail("" + application.getApplicantList().get(0).getEmail(), "OCBC Joint Account Creation", "" + notifyEmailBody);
+
+                        Bundle extras = new Bundle();
+                        Intent in = new Intent(v.getContext(), ConfirmationPage.class);
+                        extras.putSerializable("Application", application);
+                        in.putExtras(extras);
+                        v.getContext().startActivity(in);
+
                     }
+                    else {
+                        key = mDatabase.child("Application").push().getKey();
+                        application = new Application(key, randomNumberString(), applicant);
+                        mDatabase.child("Application").child(key).setValue(application);
 
-                    key = mDatabase.child("Application").push().getKey();
-                    application = new Application(key, randomNumberString(), applicant);
-                    mDatabase.child("Application").child(key).setValue(application);
-
-                    Bundle extras = new Bundle();
-                    Intent in = new Intent(v.getContext(), SendApplicationCodeActivity.class);
-                    extras.putSerializable("Application", application);
-                    in.putExtras(extras);
-                    v.getContext().startActivity(in);
+                        Bundle extras = new Bundle();
+                        Intent in = new Intent(v.getContext(), SendApplicationCodeActivity.class);
+                        extras.putSerializable("Application", application);
+                        in.putExtras(extras);
+                        v.getContext().startActivity(in);
+                    }
                 }
             }
         });
@@ -413,9 +422,14 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
     protected void onStart() {
         super.onStart();
         Intent in = getIntent();
-        applicationId = in.getStringExtra("ApplicationID");
-        if(applicationId != null){
+//        applicationId = in.getStringExtra("ApplicationID");
+        application = (Application)in.getSerializableExtra("Application");
+        if(application != null){
             progressBar2.setProgress(100);
+            if(application.getApplicantList().size() < 2){
+                applicant = new Applicant();
+                application.addApplicant(applicant);
+            }
         }
 
 //      Autofill if applicant select SingPass

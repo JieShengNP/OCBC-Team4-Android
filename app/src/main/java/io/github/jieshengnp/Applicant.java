@@ -157,21 +157,21 @@ public class Applicant implements Serializable{
     public Applicant(){}
 
     public Applicant(String title, String name, String nationality, String NRIC, String race, String DOB, String gender, String postal, String street, String block, String unit, String mobile, String email, String occupation, String martial) {
-        Title = title;
-        Name = name;
-        Nationality = nationality;
+        this.Title = title;
+        this.Name = name;
+        this.Nationality = nationality;
         this.NRIC = NRIC;
-        Race = race;
+        this.Race = race;
         this.DOB = DOB;
-        Gender = gender;
-        Postal = postal;
-        Street = street;
-        Block = block;
-        Unit = unit;
-        Mobile = mobile;
-        Email = email;
-        Occupation = occupation;
-        Martial = martial;
+        this.Gender = gender;
+        this.Postal = postal;
+        this.Street = street;
+        this.Block = block;
+        this.Unit = unit;
+        this.Mobile = mobile;
+        this.Email = email;
+        this.Occupation = occupation;
+        this.Martial = martial;
     }
 
 }
