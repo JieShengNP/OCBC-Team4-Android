@@ -44,4 +44,12 @@ public class Accounts {
     public Accounts(){
         Owner = new HashMap<>();
     }
+
+    public HashMap<String, Boolean> getOwner() {
+        return Owner;
+    }
+
+    public void setOwner(HashMap<String, Boolean> owner) {
+        Owner = owner;
+    }
 }

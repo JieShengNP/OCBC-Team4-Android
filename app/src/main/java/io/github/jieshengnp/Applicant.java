@@ -1,6 +1,7 @@
 package io.github.jieshengnp;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class Applicant implements Serializable{
     private Boolean isSingPass;
@@ -19,6 +20,7 @@ public class Applicant implements Serializable{
     private String Email;
     private String Occupation;
     private String Martial;
+    public HashMap<String, Boolean> Accounts;
 
     public Boolean getSingPass() {
         return isSingPass;
@@ -147,6 +149,10 @@ public class Applicant implements Serializable{
     public void setMartial(String martial) {
         Martial = martial;
     }
+
+    public Boolean getIsSingPass(){ return isSingPass;}
+
+    public void setIsSingPass(Boolean isSingPass){this.isSingPass = isSingPass;}
 
     public Applicant(){}
 
