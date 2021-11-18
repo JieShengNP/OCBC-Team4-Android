@@ -23,18 +23,18 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
 
 public class ConfirmationPage extends AppCompatActivity {
     ProgressBar progressbar4,progressbar5,progressbar6;
-
-
-
     Button accCreate1,accCreate2;
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://ocbc-team4-2b3ee-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,15 @@ public class ConfirmationPage extends AppCompatActivity {
         accCreate2=findViewById(R.id.accCreate2);
 
         Intent receivIntent = getIntent();
+        Application application = (Application)receivIntent.getSerializableExtra("Application");
+        Applicant firstApplicant = application.getApplicantList().get(0);
+        Applicant secondApplicant = application.getApplicantList().get(1);
+
+
+
+
+
+
 
 
 
