@@ -21,9 +21,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OCBCTeam4Android">
-        <activity android:name=".DashboardActivity">
-        </activity>
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".AccountDetailsActivity"></activity>
+        <activity android:name=".DashboardActivity"></activity>
+        <activity android:name=".LoginActivity" />
         <activity android:name=".ConfirmationPage">
             <tools:validation testUrl="https://mxrcxsz.github.io/Assignment-1/confirmation/-MoklpfYxO_VlQ2An3Ct" />
 
@@ -41,10 +41,10 @@
         </activity>
         <activity android:name=".SendApplicationCodeActivity" />
         <activity android:name=".EnterApplicationCodeActivity" />
-        <activity android:name=".ApplicationFormActivity"></activity>
+        <activity android:name=".ApplicationFormActivity" />
         <activity android:name=".SelectApplicationType" />
         <activity android:name=".Select_Apply" />
-        <activity android:name=".SelectApplicationCode"></activity>
+        <activity android:name=".SelectApplicationCode" />
         <activity android:name=".SelectAccountType" />
         <activity
             android:name=".SelectAccountActivity"
