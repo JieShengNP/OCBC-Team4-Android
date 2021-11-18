@@ -19,10 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="28dp"
             android:text="Gender"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dobLayout" />
 
@@ -31,7 +29,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="28dp"
             android:text="Address as in NRIC"
             android:textSize="16sp"
@@ -46,7 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="28dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -75,7 +73,7 @@
             android:layout_marginStart="28dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="28dp"
-            android:text="NRIC/Passporrt Number"
+            android:text="NRIC/Passport Number"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -394,7 +392,7 @@
                 android:id="@+id/accessCodeTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Access code"
+                android:hint="E-mail"
                 android:inputType="text"
                 android:textSize="16sp"
                 tools:layout_editor_absoluteX="30dp"
@@ -420,7 +418,7 @@
                 android:id="@+id/pinTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="6-digit PIN"
+                android:hint="Password"
                 android:inputType="text"
                 android:textSize="16sp"
                 tools:layout_editor_absoluteX="30dp"
@@ -539,14 +537,14 @@
             app:layout_constraintTop_toBottomOf="@+id/textView9">
 
             <RadioButton
-                android:id="@+id/radioButton"
+                android:id="@+id/obaRadioBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Online banking access"
                 app:buttonTint="#707070" />
 
             <RadioButton
-                android:id="@+id/radioButton2"
+                android:id="@+id/ocbcCardRadioBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Any OCBC carrd (ATM, Credit or Debit)"
@@ -763,7 +761,7 @@
                 android:id="@+id/phoneTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="number"
                 android:textSize="14sp"
                 tools:layout_editor_absoluteX="30dp"
                 tools:layout_editor_absoluteY="549dp" />
@@ -893,5 +891,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/maritalLayout" />
+
+        <TextView
+            android:id="@+id/genderErrorTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="28dp"
+            android:text="Error"
+            android:textColor="#B51130"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/genderLbl"
+            app:layout_constraintTop_toBottomOf="@+id/dobLayout" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -3,15 +3,18 @@ package io.github.jieshengnp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -31,23 +34,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.Random;
 
-public class ApplicationFormActivity extends AppCompatActivity {
+public class ApplicationFormActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
-    TextView forgetPwdTxt, box;
-    TextInputLayout accessCodeLayout, pinLayout;
+    TextView forgetPwdTxt, box, genderErrorTxt;
+    TextInputLayout accessCodeLayout, pinLayout, titleLayout, nameLayout, nationalityLayout, icLayout, raceLayout, dobLayout, postalLayout, streetLayout, blockLayout, unitLayout, phoneLayout, emailLayout, jobLayout, maritalLayout;
     TextInputEditText accessCodeTxt, nameTxt, icTxt, dobTxt, postalTxt, streetTxt, blockTxt, unitTxt, mobileTxt, emailTxt, occupationTxt;
     AutoCompleteTextView titleDropdown, countryDropdown, raceDropdown, maritalDropdown;
     Button loginBtn, nextBtn;
+    RadioGroup loginRadioGroup;
+    RadioButton obaRadioBtn, ocbcCardRadioBtn, genderMale, genderFemale;
     ProgressBar progressBar1, progressBar2, progressBar3;
     String key, selectedTitle, selectedCountry, selectedRace, selectedMarital;
     Applicant applicant;
     Application application;
 
-    TextInputEditText postalTxt, streetTxt, blockTxt;
     Button getAddressBtn;
 
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://ocbc-team4-2b3ee-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -64,12 +69,32 @@ public class ApplicationFormActivity extends AppCompatActivity {
 
 //      Initialise data
         forgetPwdTxt = findViewById(R.id.forgetPwdTxt);
+        genderErrorTxt = findViewById(R.id.genderErrorTxt);
+        loginRadioGroup = findViewById(R.id.loginRadioGrp);
+        obaRadioBtn = findViewById(R.id.obaRadioBtn);
+        ocbcCardRadioBtn = findViewById(R.id.ocbcCardRadioBtn);
+        genderMale = findViewById(R.id.genderMale);
+        genderFemale = findViewById(R.id.genderFemale);
         loginBtn = findViewById(R.id.loginBtn);
         nextBtn = findViewById(R.id.nextBtn);
         accessCodeTxt = findViewById(R.id.accessCodeTxt);
         nameTxt = findViewById(R.id.nameTxt);
         accessCodeLayout = findViewById(R.id.accessCodeLayout);
         pinLayout = findViewById(R.id.pinLayout);
+        titleLayout = findViewById(R.id.titleLayout);
+        nameLayout = findViewById(R.id.nameLayout);
+        nationalityLayout = findViewById(R.id.nationalityLayout);
+        icLayout = findViewById(R.id.icLayout);
+        raceLayout = findViewById(R.id.raceLayout);
+        dobLayout = findViewById(R.id.dobLayout);
+        postalLayout = findViewById(R.id.postalLayout);
+        streetLayout = findViewById(R.id.streetLayout);
+        blockLayout = findViewById(R.id.blockLayout);
+        unitLayout = findViewById(R.id.unitLayout);
+        phoneLayout = findViewById(R.id.phoneLayout);
+        emailLayout = findViewById(R.id.emailLayout);
+        jobLayout = findViewById(R.id.jobLayout);
+        maritalLayout = findViewById(R.id.maritalLayout);
         box = findViewById(R.id.box);
         progressBar1 = findViewById(R.id.progressBar1);
         progressBar2 = findViewById(R.id.progressBar2);
@@ -94,11 +119,43 @@ public class ApplicationFormActivity extends AppCompatActivity {
         pinLayout.setVisibility(View.GONE);
         loginBtn.setVisibility(View.GONE);
         forgetPwdTxt.setVisibility(View.GONE);
+        genderErrorTxt.setVisibility(View.GONE);
 
         progressBar1.setProgress(100);
 
         ConstraintLayout.LayoutParams boxLP = (ConstraintLayout.LayoutParams) box.getLayoutParams();
         boxLP.height -= DipToPixels(237);
+
+        //Set Login View according to customer type
+        obaRadioBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean obaChecked = obaRadioBtn.isChecked();
+
+                if (obaChecked == true){
+                    accessCodeLayout.setVisibility(View.VISIBLE);
+                    pinLayout.setVisibility(View.VISIBLE);
+                    loginBtn.setVisibility(View.VISIBLE);
+                    forgetPwdTxt.setVisibility(View.VISIBLE);
+                    boxLP.height = (int) DipToPixels(457);
+                }
+            }
+        });
+
+        ocbcCardRadioBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean ocbcChecked = ocbcCardRadioBtn.isChecked();
+
+                if (ocbcChecked == true){
+                    accessCodeLayout.setVisibility(View.GONE);
+                    pinLayout.setVisibility(View.GONE);
+                    loginBtn.setVisibility(View.GONE);
+                    forgetPwdTxt.setVisibility(View.GONE);
+                    boxLP.height = (int) DipToPixels(220);
+                }
+            }
+        });
 
         // Add Salutations
         titleDropdown = findViewById(R.id.titleDropdown);
@@ -135,7 +192,7 @@ public class ApplicationFormActivity extends AppCompatActivity {
             }
         });
 
-        //Add Ethnicity
+        //Add Race
         raceDropdown = findViewById(R.id.raceDropdown);
         ArrayAdapter<String> racesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, races);
         raceDropdown.setAdapter(racesAdapter);
@@ -147,6 +204,16 @@ public class ApplicationFormActivity extends AppCompatActivity {
             }
         });
 
+        //Add Date of Birth
+        dobTxt.setInputType(0);
+        dobTxt.setFocusable(false);
+        dobTxt.setClickable(true);
+        dobTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog();
+            }
+        });
 
         //Add Marital Status
         maritalDropdown = findViewById(R.id.maritalDropdown);
@@ -174,54 +241,54 @@ public class ApplicationFormActivity extends AppCompatActivity {
         getAddressBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RequestQueue queue = Volley.newRequestQueue(ApplicationFormActivity.this);
-                String reqUrl = "https://developers.onemap.sg/commonapi/search?searchVal=" + postalTxt.getText().toString() + "&returnGeom=N&getAddrDetails=Y";
+                if (postalTxt.getText().toString().isEmpty()){
+                    Toast.makeText(getApplicationContext(), "Please enter a Postal Code", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    RequestQueue queue = Volley.newRequestQueue(ApplicationFormActivity.this);
+                    String reqUrl = "https://developers.onemap.sg/commonapi/search?searchVal=" + postalTxt.getText().toString() + "&returnGeom=N&getAddrDetails=Y";
 
-                JsonObjectRequest objRequest = new JsonObjectRequest
-                        (Request.Method.GET, reqUrl, null, response -> {
-                            Log.d("null", response.toString());
+                    JsonObjectRequest objRequest = new JsonObjectRequest
+                            (Request.Method.GET, reqUrl, null, response -> {
+                                Log.d("null", response.toString());
 
-                            try {
-                                JSONArray array = response.getJSONArray("results");
-                                if (array.length()>0){
-                                    String street = array.getJSONObject(0).getString("ROAD_NAME");
-                                    String building = array.getJSONObject(0).getString("BUILDING");
-                                    String blkNo = array.getJSONObject(0).getString("BLK_NO");
+                                try {
+                                    JSONArray array = response.getJSONArray("results");
+                                    if (array.length() > 0) {
+                                        String street = array.getJSONObject(0).getString("ROAD_NAME");
+                                        String building = array.getJSONObject(0).getString("BUILDING");
+                                        String blkNo = array.getJSONObject(0).getString("BLK_NO");
 
-                                    if (building.equalsIgnoreCase("NIL")){
-                                        building = "";
+                                        if (building.equalsIgnoreCase("NIL")) {
+                                            building = "";
+                                        } else {
+                                            building = ", " + building;
+                                        }
+
+                                        streetTxt.setText(street + building);
+                                        blockTxt.setText(blkNo);
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Address could not be found", Toast.LENGTH_SHORT).show();
+                                        streetTxt.setText("");
+                                        blockTxt.setText("");
                                     }
-                                    else{
-                                        building = ", " + building;
-                                    }
-
-                                    streetTxt.setText(street + building);
-                                    blockTxt.setText(blkNo);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
-                                else{
-                                    Toast.makeText(getApplicationContext(), "Address could not be found", Toast.LENGTH_SHORT).show();
-                                    streetTxt.setText("");
-                                    blockTxt.setText("");
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
 
-                        }, error ->{
-                            error.printStackTrace();
-                            Log.d("error", error.getMessage());
-                });
-
-                APISingleton.getInstance(getApplicationContext()).addToRequestQueue(objRequest);
+                            }, error -> {
+                                error.printStackTrace();
+                                Log.d("error", error.getMessage());
+                            });
+                    APISingleton.getInstance(getApplicationContext()).addToRequestQueue(objRequest);
+                }
             }
         });
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = nameTxt.getText().toString();
-                if(validateInput(name)){
-
+                if(validateInput()){
                     applicant = new Applicant();
                     //Title
                     applicant.setTitle(selectedTitle);
@@ -287,8 +354,148 @@ public class ApplicationFormActivity extends AppCompatActivity {
         }
     }
 
-    public boolean validateInput(String n){
-//        input validation here]
+    //Show DatePicker
+    private void showDatePickerDialog(){
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                this,
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        );
+        datePickerDialog.show();
+    }
+
+    public boolean validateInput(){
+//        input validation here
+
+        //check if title is empty
+        if(titleDropdown.getText().toString().isEmpty()){
+            titleLayout.setError("Please choose your title");
+            return false;
+        }
+        else{
+            titleLayout.setError(null);
+        }
+
+        //check if name is empty
+        if(nameTxt.getText().toString().isEmpty()){
+            nameLayout.setError("Please enter your name");
+            return false;
+        }
+        else{
+            nameLayout.setError(null);
+        }
+
+        //check if nationality is empty
+        if(countryDropdown.getText().toString().isEmpty()){
+            nationalityLayout.setError("Please choose your nationality");
+            return false;
+        }
+        else{
+            nationalityLayout.setError(null);
+        }
+
+        //check if ic is empty
+        if(icTxt.getText().toString().isEmpty()){
+            icLayout.setError("Please enter your NRIC or Passport Number");
+            return false;
+        }
+        else{
+            icLayout.setError(null);
+        }
+
+        //check if race is empty
+        if(raceDropdown.getText().toString().isEmpty()){
+            raceLayout.setError("Please choose your nationality");
+            return false;
+        }
+        else{
+            raceLayout.setError(null);
+        }
+
+        //check if ic is empty
+        if(dobTxt.getText().toString().isEmpty()){
+            dobLayout.setError("Please choose your Date of Birth");
+            return false;
+        }
+        else{
+            dobLayout.setError(null);
+        }
+
+        //check if Gender is empty
+        if(!genderMale.isChecked() && !genderFemale.isChecked()){
+            genderErrorTxt.setVisibility(View.VISIBLE);
+            genderErrorTxt.setText("Please choose your gender");
+            return false;
+        }
+        else{
+            genderErrorTxt.setVisibility(View.GONE);
+        }
+
+        //check if postal is empty
+        if(postalTxt.getText().toString().isEmpty()){
+            postalLayout.setError("Please enter your postal code");
+            return false;
+        }
+        else{
+            postalLayout.setError(null);
+        }
+
+        //check if street is empty
+        if(streetTxt.getText().toString().isEmpty()){
+            streetLayout.setError("Please enter your street");
+            return false;
+        }
+        else{
+            streetLayout.setError(null);
+        }
+
+        //check if block is empty
+        if(blockTxt.getText().toString().isEmpty()){
+            blockLayout.setError("Please enter your Block/House Number");
+            return false;
+        }
+        else{
+            blockLayout.setError(null);
+        }
+
+        //check if mobile number is empty
+        if(mobileTxt.getText().toString().isEmpty()){
+            phoneLayout.setError("Please enter your Mobile Number");
+            return false;
+        }
+        else{
+            phoneLayout.setError(null);
+        }
+
+        //check if email is empty
+        if(emailTxt.getText().toString().isEmpty()){
+            emailLayout.setError("Please enter your E-mail address");
+            return false;
+        }
+        else{
+            emailLayout.setError(null);
+        }
+
+        //check if postal is empty
+        if(occupationTxt.getText().toString().isEmpty()){
+            jobLayout.setError("Please enter your Occupation");
+            return false;
+        }
+        else{
+            jobLayout.setError(null);
+        }
+
+        //check if marital status is empty
+        if(maritalDropdown.getText().toString().isEmpty()){
+            maritalLayout.setError("Please choose your Marital Status");
+            return false;
+        }
+        else{
+            maritalLayout.setError(null);
+        }
+
         return true;
     }
 
@@ -309,5 +516,30 @@ public class ApplicationFormActivity extends AppCompatActivity {
                 dp,
                 getResources().getDisplayMetrics()
         );
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        String stringDay;
+        String stringMonth;
+
+        month += 1;
+
+        if (dayOfMonth < 10){
+            stringDay = "0" + dayOfMonth;
+        }
+        else{
+            stringDay = "" + dayOfMonth;
+        }
+        if (month < 10){
+            stringMonth = "0" + month;
+        }
+        else{
+            stringMonth = "" + month;
+        }
+
+
+        String date = stringDay + "/" + stringMonth + "/" + year;
+        dobTxt.setText(date);
     }
 }
