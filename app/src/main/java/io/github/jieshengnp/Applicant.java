@@ -1,7 +1,6 @@
 package io.github.jieshengnp;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Applicant implements Serializable{
     private Boolean isSingPass;
@@ -42,7 +41,7 @@ public class Applicant implements Serializable{
     }
 
     public void setName(String name) {
-        name = Name;
+        Name = name;
     }
 
     public String getNationality() {

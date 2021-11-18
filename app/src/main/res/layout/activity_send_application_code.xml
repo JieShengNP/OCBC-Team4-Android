@@ -13,7 +13,7 @@
     tools:context=".SendApplicationCodeActivity">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/backBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
@@ -27,11 +27,11 @@
         android:layout_width="145dp"
         android:layout_height="53dp"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintBottom_toBottomOf="@+id/backBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.377"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/backBtn"
+        app:layout_constraintTop_toTopOf="@+id/backBtn"
         app:layout_constraintVertical_bias="0.483"
         app:srcCompat="@drawable/ocbc_bank_logo_png_transparent" />
 
@@ -299,7 +299,7 @@ form to fill in their personal details."
         android:layout_marginStart="18dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="18dp"
-        android:text="we will notify you when they are done"
+        android:text="We will notify you when they are done"
         android:textSize="18sp"
         android:textStyle=""
         app:layout_constraintEnd_toEndOf="parent"

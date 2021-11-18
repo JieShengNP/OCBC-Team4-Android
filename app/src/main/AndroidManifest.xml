@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="io.github.jieshengnp">
-    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -15,17 +17,32 @@
         <activity
             android:name=".ConfirmationPage"
             android:exported="false" />
-        <activity android:name=".EnterApplicationCodeActivity">
+        <activity android:name=".SendApplicationCodeActivity"></activity>
+        <activity android:name=".EnterApplicationCodeActivity"></activity>
+        <activity android:name=".ApplicationFormActivity">
+            <tools:validation testUrl="https://mxrcxsz.github.io/Assignment-1/confirmation/-MoklpfYxO_VlQ2An3Ct" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="mxrcxsz.github.io"
+                    android:pathPrefix="/Assignment-1/confirmation" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SelectApplicationType" />
+        <activity android:name=".Select_Apply" />
+        <activity android:name=".SelectApplicationCode">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ApplicationFormActivity" />
-        <activity android:name=".SelectApplicationType" />
-        <activity android:name=".Select_Apply" />
-        <activity android:name=".SelectApplicationCode" />
         <activity android:name=".SelectAccountType" />
         <activity
             android:name=".SelectAccountActivity"

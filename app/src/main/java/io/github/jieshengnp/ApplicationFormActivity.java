@@ -1,9 +1,7 @@
 package io.github.jieshengnp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -12,11 +10,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -43,9 +45,10 @@ public class ApplicationFormActivity extends AppCompatActivity {
     AutoCompleteTextView titleDropdown, countryDropdown, raceDropdown, maritalDropdown;
     Button loginBtn, nextBtn;
     ProgressBar progressBar1, progressBar2, progressBar3;
-    String key, selectedTitle, selectedCountry, selectedRace, selectedMarital;
+    String key, selectedTitle, selectedCountry, selectedRace, selectedMarital, applicationId;
     Applicant applicant;
     Application application;
+    ImageView backBtn;
 
     Button getAddressBtn;
 
@@ -60,6 +63,7 @@ public class ApplicationFormActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_form);
+
 
 //      Initialise data
         forgetPwdTxt = findViewById(R.id.forgetPwdTxt);
@@ -83,18 +87,23 @@ public class ApplicationFormActivity extends AppCompatActivity {
         mobileTxt = findViewById(R.id.phoneTxt);
         emailTxt = findViewById(R.id.emailTxt);
         occupationTxt = findViewById(R.id.jobTxt);
+        backBtn = findViewById(R.id.backBtn);
 
         postalTxt = findViewById(R.id.postalTxt);
         streetTxt = findViewById(R.id.streetTxt);
         blockTxt = findViewById(R.id.blockTxt);
         getAddressBtn = findViewById(R.id.getAddressBtn);
 
+//      End of initialise code
+
+
+        // ATTENTION: This was auto-generated to handle app links.
+        handleDeepLink();
+
         accessCodeLayout.setVisibility(View.GONE);
         pinLayout.setVisibility(View.GONE);
         loginBtn.setVisibility(View.GONE);
         forgetPwdTxt.setVisibility(View.GONE);
-
-        progressBar1.setProgress(100);
 
         ConstraintLayout.LayoutParams boxLP = (ConstraintLayout.LayoutParams) box.getLayoutParams();
         boxLP.height -= DipToPixels(237);
@@ -115,9 +124,9 @@ public class ApplicationFormActivity extends AppCompatActivity {
         countryDropdown = findViewById(R.id.countryDropdown);
         Locale[] locales = Locale.getAvailableLocales();
         ArrayList<String> countries = new ArrayList<String>();
-        for (Locale locale: locales){
+        for (Locale locale : locales) {
             String country = locale.getDisplayCountry();
-            if (country.trim().length()>0 && !countries.contains(country)){
+            if (country.trim().length() > 0 && !countries.contains(country)) {
                 countries.add(country);
             }
         }
@@ -182,22 +191,20 @@ public class ApplicationFormActivity extends AppCompatActivity {
 
                             try {
                                 JSONArray array = response.getJSONArray("results");
-                                if (array.length()>0){
+                                if (array.length() > 0) {
                                     String street = array.getJSONObject(0).getString("ROAD_NAME");
                                     String building = array.getJSONObject(0).getString("BUILDING");
                                     String blkNo = array.getJSONObject(0).getString("BLK_NO");
 
-                                    if (building.equalsIgnoreCase("NIL")){
+                                    if (building.equalsIgnoreCase("NIL")) {
                                         building = "";
-                                    }
-                                    else{
+                                    } else {
                                         building = ", " + building;
                                     }
 
                                     streetTxt.setText(street + building);
                                     blockTxt.setText(blkNo);
-                                }
-                                else{
+                                } else {
                                     Toast.makeText(getApplicationContext(), "Address could not be found", Toast.LENGTH_SHORT).show();
                                     streetTxt.setText("");
                                     blockTxt.setText("");
@@ -206,12 +213,20 @@ public class ApplicationFormActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
 
-                        }, error ->{
+                        }, error -> {
                             error.printStackTrace();
                             Log.d("error", error.getMessage());
-                });
+                        });
 
                 APISingleton.getInstance(getApplicationContext()).addToRequestQueue(objRequest);
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ApplicationFormActivity.this, SelectApplicationType.class);
+                startActivity(i);
             }
         });
 
@@ -219,36 +234,41 @@ public class ApplicationFormActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String name = nameTxt.getText().toString();
-                if(validateInput(name)){
+                if (validateInput(name)) {
+                    if (applicant == null) {
+                        applicant = new Applicant();
+                        applicant.setSingPass(false);
 
-                    applicant = new Applicant();
+                        //Name
+                        applicant.setName(nameTxt.getText().toString());
+
+                        //Nationality
+                        applicant.setNationality(selectedCountry);
+
+                        //NRIC
+                        applicant.setNRIC(icTxt.getText().toString());
+
+                        //Race
+                        applicant.setRace(selectedRace);
+
+                        //DOB
+                        applicant.setDOB(dobTxt.getText().toString());
+
+                        //Gender
+                        RadioButton genderButton = findViewById(genderGroup.getCheckedRadioButtonId());
+                        if (genderButton != null) {
+                            applicant.setGender(genderButton.getText().toString());
+                        }
+
+                        //Address
+                        applicant.setPostal(postalTxt.getText().toString());
+                        applicant.setStreet(streetTxt.getText().toString());
+                        applicant.setBlock(blockTxt.getText().toString());
+                        applicant.setUnit(unitTxt.getText().toString());
+                    }
+
                     //Title
                     applicant.setTitle(selectedTitle);
-
-                    //Name
-                    applicant.setName(nameTxt.getText().toString());
-
-                    //Nationality
-                    applicant.setNationality(selectedCountry);
-
-                    //NRIC
-                    applicant.setNRIC(icTxt.getText().toString());
-
-                    //Race
-                    applicant.setRace(selectedRace);
-
-                    //DOB
-                    applicant.setDOB(dobTxt.getText().toString());
-
-                    //Gender
-                    RadioButton genderButton = findViewById(genderGroup.getCheckedRadioButtonId());
-                    applicant.setGender(genderButton.getText().toString());
-
-                    //Address
-                    applicant.setPostal(postalTxt.getText().toString());
-                    applicant.setStreet(streetTxt.getText().toString());
-                    applicant.setBlock(blockTxt.getText().toString());
-                    applicant.setUnit(unitTxt.getText().toString());
 
                     //Mobile
                     applicant.setMobile(mobileTxt.getText().toString());
@@ -262,28 +282,87 @@ public class ApplicationFormActivity extends AppCompatActivity {
                     //Marital Status
                     applicant.setMartial(selectedMarital);
 
+                    Log.d("check", "name" + applicant.getName());
+
+                    if (progressBar2.getProgress() == 100) {
+                        String notifyEmailBody = "";
+                        sendEmail("" + application.getApplicantList().get(0).getEmail(), "OCBC Joint Account Creation", "" + notifyEmailBody);
+                    }
+
                     key = mDatabase.child("Application").push().getKey();
                     application = new Application(key, randomNumberString(), applicant);
                     mDatabase.child("Application").child(key).setValue(application);
+
+                    Bundle extras = new Bundle();
+                    Intent in = new Intent(v.getContext(), SendApplicationCodeActivity.class);
+                    extras.putSerializable("Application", application);
+                    in.putExtras(extras);
+                    v.getContext().startActivity(in);
                 }
             }
         });
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleDeepLink();
+    }
+
+    private void handleDeepLink() {
+        Intent appLinkIntent = getIntent();
+        String appLinkAction = appLinkIntent.getAction();
+        Uri appLinkData = appLinkIntent.getData();
+        if(appLinkData != null){
+            applicationId = appLinkData.getLastPathSegment();
+            progressBar2.setProgress(100);
+        }
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         Intent in = getIntent();
-        String applicationId = in.getStringExtra("ApplicationID");
+        applicationId = in.getStringExtra("ApplicationID");
         if(applicationId != null){
             progressBar2.setProgress(100);
         }
 
 //      Autofill if applicant select SingPass
-        applicant = (Applicant) in.getSerializableExtra("Applicant");
-        if(applicant != null){
+        Applicant singPassData = (Applicant) in.getSerializableExtra("Applicant");
+        if(singPassData != null){
+            applicant = singPassData;
+            applicant.setSingPass(true);
+
+            //Name
             nameTxt.setText(applicant.getName());
+
+            //Nationality
+
+            //NRIC
+
+            //Race
+
+            //DOB
+
+            //Gender
+
+            //Address
         }
+    }
+
+    public void sendEmail(String recipient, String subject, String body){
+        new Thread(() -> {
+            try {
+                GmailSender sender = new GmailSender("ocbc.auth@gmail.com",
+                        "PasswordForOcbc");
+                sender.sendMail("OCBC", body,
+                        "ocbc.auth@gmail.com", "" + recipient);
+            } catch (Exception e) {
+                Log.e("SendMail", e.getMessage(), e);
+            }
+        }).start();
     }
 
     public boolean validateInput(String n){
