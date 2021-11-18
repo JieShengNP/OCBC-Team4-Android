@@ -47,7 +47,6 @@ public class ApplicationFormActivity extends AppCompatActivity {
     Applicant applicant;
     Application application;
 
-    TextInputEditText postalTxt, streetTxt, blockTxt;
     Button getAddressBtn;
 
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://ocbc-team4-2b3ee-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -275,9 +274,9 @@ public class ApplicationFormActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Intent in = getIntent();
-        application = (Application) in.getSerializableExtra("Application");
-        if(application != null && application.getApplicantList().size() == 1){
-            startActivity(new Intent(ApplicationFormActivity.this, SelectApplicationType.class));
+        String applicationId = in.getStringExtra("ApplicationID");
+        if(applicationId != null){
+            progressBar2.setProgress(100);
         }
 
 //      Autofill if applicant select SingPass
@@ -288,7 +287,7 @@ public class ApplicationFormActivity extends AppCompatActivity {
     }
 
     public boolean validateInput(String n){
-//        input validation here]
+//       input validation here
         return true;
     }
 
