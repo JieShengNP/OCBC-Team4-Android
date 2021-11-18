@@ -225,7 +225,7 @@ public class ApplicationFormActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ApplicationFormActivity.this, SelectApplicationType.class);
+                Intent i = new Intent(ApplicationFormActivity.this, ConfirmationPage.class);
                 startActivity(i);
             }
         });
