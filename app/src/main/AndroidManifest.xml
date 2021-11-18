@@ -4,8 +4,15 @@
     package="io.github.jieshengnp">
 
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <queries>
+
+        <!-- Camera -->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
 
     <application
         android:allowBackup="true"
@@ -14,11 +21,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OCBCTeam4Android">
+        <activity android:name=".LoginActivity"></activity>
         <activity
             android:name=".ConfirmationPage"
             android:exported="false" />
-        <activity android:name=".SendApplicationCodeActivity"></activity>
-        <activity android:name=".EnterApplicationCodeActivity"></activity>
+        <activity android:name=".SendApplicationCodeActivity" />
+        <activity android:name=".EnterApplicationCodeActivity" />
         <activity android:name=".ApplicationFormActivity">
             <tools:validation testUrl="https://mxrcxsz.github.io/Assignment-1/confirmation/-MoklpfYxO_VlQ2An3Ct" />
 
@@ -29,31 +37,25 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:scheme="https"
                     android:host="mxrcxsz.github.io"
-                    android:pathPrefix="/Assignment-1/confirmation" />
+                    android:pathPrefix="/Assignment-1/confirmation"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity android:name=".SelectApplicationType" />
         <activity android:name=".Select_Apply" />
-        <activity android:name=".SelectApplicationCode">
+        <activity android:name=".SelectApplicationCode"></activity>
+        <activity android:name=".SelectAccountType" />
+        <activity
+            android:name=".SelectAccountActivity"
+            android:exported="false" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SelectAccountType" />
-        <activity
-            android:name=".SelectAccountActivity"
-            android:exported="false" />
-        <activity android:name=".MainActivity" />
     </application>
-    <queries>
-        <!-- Camera -->
-        <intent>
-            <action android:name="android.media.action.IMAGE_CAPTURE" />
-        </intent>
-    </queries>
 
 </manifest>
