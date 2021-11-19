@@ -23,6 +23,7 @@
         android:theme="@style/Theme.OCBCTeam4Android">
         <activity android:name=".DashboardActivity"></activity>
         <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".AccountDetailsActivity"/>
         <activity android:name=".ConfirmationPage">
             <tools:validation testUrl='https://mxrcxsz.github.io/Assignment-1/confirmation/-MonHZFjUAUJpR02hJp6"' />
 
