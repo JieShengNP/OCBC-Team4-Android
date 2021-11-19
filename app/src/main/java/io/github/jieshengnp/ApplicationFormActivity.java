@@ -66,7 +66,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 
     private FirebaseAuth mAuth;
     private FirebaseUser user;
-    TextView forgetPwdTxt, box, genderErrorTxt, emailLbl, passwordLbl, signInTitle1, signInTitle2;
+    TextView forgetPwdTxt, box, genderErrorTxt, emailLbl, passwordLbl, signInTitle1, signInTitle2, selfieErrorTxt;
     TextInputLayout accessCodeLayout, pinLayout, titleLayout, nameLayout, nationalityLayout, icLayout, raceLayout, dobLayout, postalLayout, streetLayout, blockLayout, unitLayout, phoneLayout, emailLayout, jobLayout, maritalLayout, passwordLayout;
     TextInputEditText accessCodeTxt, pinTxt, nameTxt, icTxt, dobTxt, postalTxt, streetTxt, blockTxt, unitTxt, mobileTxt, emailTxt, occupationTxt, passwordTxt;
     AutoCompleteTextView titleDropdown, countryDropdown, raceDropdown, maritalDropdown;
@@ -79,7 +79,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
     Applicant currentApplicant;
     Application application;
     ImageView backBtn, uploadedSelfie;
-    Button uploadSelfie,confirmButton;
+    Button uploadSelfie;
     ActivityResultLauncher<Intent> activityResultLauncher;
     Bitmap imageBitmap;
     private static final int REQUEST_CAMERA_CODE = 100;
@@ -169,6 +169,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 
         uploadedSelfie = findViewById(R.id.imageView);
         uploadSelfie = findViewById(R.id.uploadBtn);
+        selfieErrorTxt = findViewById(R.id.selfieErrorTxt);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -321,6 +322,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     activityResultLauncher.launch(intent);
+                    selfieErrorTxt.setVisibility(View.GONE);
                 } else {
                     Toast.makeText(ApplicationFormActivity.this, "Cant Open",
                             Toast.LENGTH_SHORT).show();
@@ -590,10 +592,10 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
             accessCodeLayout.setError(null);
             pinLayout.setError(null);
 
-            emailLbl.setVisibility(View.GONE);
-            emailLayout.setVisibility(View.GONE);
-            passwordLbl.setVisibility(View.GONE);
-            passwordLayout.setVisibility(View.GONE);
+//            emailLbl.setVisibility(View.GONE);
+//            emailLayout.setVisibility(View.GONE);
+//            passwordLbl.setVisibility(View.GONE);
+//            passwordLayout.setVisibility(View.GONE);
             applicant = singPassData;
             applicant.setSingPass(true);
 
@@ -748,9 +750,12 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
             isValid = false;
         }
 
-        if(imageBitmap == null){
+        try {
+            imageBitmap.getWidth();
+        }
+        catch (NullPointerException e){
             isValid = false;
-            Toast.makeText(getApplicationContext(), "Please upload a selfie with your NRIC/Passport", Toast.LENGTH_SHORT).show();
+            selfieErrorTxt.setVisibility(View.VISIBLE);
         }
 
         //if user is already logged in

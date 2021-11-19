@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ApplicationFormActivity"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    tools:context=".ApplicationFormActivity">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -383,11 +383,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
+            app:boxBackgroundColor="@color/white"
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="@+id/box"
             app:layout_constraintStart_toStartOf="@+id/box"
-            app:layout_constraintTop_toBottomOf="@+id/loginRadioGrp"
-            app:boxBackgroundColor="@color/white">
+            app:layout_constraintTop_toBottomOf="@+id/loginRadioGrp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/accessCodeTxt"
@@ -434,10 +434,10 @@
             android:layout_marginStart="28dp"
             android:layout_marginTop="3dp"
             android:layout_marginEnd="28dp"
+            app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleLbl"
-            app:errorEnabled="true">
+            app:layout_constraintTop_toBottomOf="@+id/titleLbl">
 
             <AutoCompleteTextView
                 android:id="@+id/titleDropdown"
@@ -906,16 +906,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/maritalLbl">
 
-        <AutoCompleteTextView
-            android:id="@+id/maritalDropdown"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffffff"
-            android:dropDownHeight="200dp"
-            android:hint="Please select"
-            android:inputType="none"
-            android:textAppearance="?android:attr/textAppearanceListItemSmall"
-            android:textSize="16sp" />
+            <AutoCompleteTextView
+                android:id="@+id/maritalDropdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:dropDownHeight="200dp"
+                android:hint="Please select"
+                android:inputType="none"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall"
+                android:textSize="16sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -954,7 +954,7 @@
             app:backgroundTint="#555555"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/uploadBtn" />
+            app:layout_constraintTop_toBottomOf="@+id/selfieErrorTxt" />
 
         <TextView
             android:id="@+id/genderErrorTxt"
@@ -978,6 +978,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/uploadBtn"
             tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/selfieErrorTxt"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="28dp"
+            android:text="Please upload a selfie with your NRIC/Passport"
+            android:textColor="#B51130"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/uploadBtn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
