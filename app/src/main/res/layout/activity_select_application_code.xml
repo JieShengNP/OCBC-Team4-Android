@@ -32,35 +32,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appCodeTitle" />
 
-    <Button
+    <TextView
         android:id="@+id/hasAppCode"
-        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
+        android:layout_width="374dp"
+        android:layout_height="65dp"
         android:layout_marginStart="35dp"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="35dp"
-        android:text="Yes, continue application"
-        android:textSize="12dp"
-        app:backgroundTint="#ffffff"
+        android:background="#F6F6F6"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appCodeText" />
 
-    <Button
+    <TextView
+        android:id="@+id/hasAppCodeTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="Yes, continue application"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/hasAppCode"
+        app:layout_constraintStart_toStartOf="@+id/hasAppCode"
+        app:layout_constraintTop_toTopOf="@+id/hasAppCode" />
+
+    <TextView
         android:id="@+id/noAppCode"
-        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
+        android:layout_width="374dp"
+        android:layout_height="65dp"
         android:layout_marginStart="35dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="35dp"
-        android:text="No, I don't have it"
-        android:textSize="12dp"
-        app:backgroundTint="#ffffff"
+        android:background="#F6F6F6"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hasAppCode" />
+
+    <TextView
+        android:id="@+id/noAppCodeTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="No, I don't have it"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/noAppCode"
+        app:layout_constraintStart_toStartOf="@+id/noAppCode"
+        app:layout_constraintTop_toTopOf="@+id/noAppCode" />
 </androidx.constraintlayout.widget.ConstraintLayout>
