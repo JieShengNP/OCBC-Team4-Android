@@ -48,4 +48,9 @@ public class Application implements Serializable {
         this.applicationCode = applicationCode;
         this.applicantList.add(applicant);
     }
+
+    public Application(String applicationID, String applicationCode){
+        this.applicationID = applicationID;
+        this.applicationCode = applicationCode;
+    }
 }

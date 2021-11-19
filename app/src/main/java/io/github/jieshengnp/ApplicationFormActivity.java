@@ -85,7 +85,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
     private static final int REQUEST_CAMERA_CODE = 100;
     StorageReference storageRef = FirebaseStorage.getInstance("gs://ocbc-team4-2b3ee.appspot.com/").getReference();
 
-    ArrayAdapter<String> nationalitiesAdapter;
+    ArrayAdapter<String> nationalitiesAdapter, racesAdapter, martialAdapter, salutationAdapter;
 
     boolean isLoggedIn;
 
@@ -215,7 +215,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 
         //Add Race
         raceDropdown = findViewById(R.id.raceDropdown);
-        ArrayAdapter<String> racesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, races);
+        racesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, races);
         raceDropdown.setAdapter(racesAdapter);
 
         raceDropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -238,7 +238,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 
         //Add Marital Status
         maritalDropdown = findViewById(R.id.maritalDropdown);
-        ArrayAdapter<String> martialAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, marital);
+        martialAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, marital);
         maritalDropdown.setAdapter(martialAdapter);
 
         maritalDropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -338,16 +338,19 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                 if(validateInput()){
                     applicant = new Applicant();
                     //Title
-                    applicant.setTitle(selectedTitle);
+                    applicant.setTitle(titleDropdown.getText().toString()==null? selectedTitle: titleDropdown.getText().toString());
+
+                    //Name
+                    applicant.setName(nameTxt.getText().toString());
 
                     //Nationality
-                    applicant.setNationality(selectedCountry);
+                    applicant.setNationality(countryDropdown.getText().toString()==null? selectedCountry: countryDropdown.getText().toString());
 
                     //NRIC
                     applicant.setNRIC(icTxt.getText().toString());
 
                     //Race
-                    applicant.setRace(selectedRace);
+                    applicant.setRace(raceDropdown.getText().toString()==null? selectedRace: raceDropdown.getText().toString());
 
                     //DOB
                     applicant.setDOB(dobTxt.getText().toString());
@@ -372,7 +375,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                     applicant.setOccupation(occupationTxt.getText().toString());
 
                     //Marital Status
-                    applicant.setMartial(selectedMarital);
+                    applicant.setMartial(maritalDropdown.getText().toString()==null? selectedMarital: maritalDropdown.getText().toString());
 
                     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                     imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
@@ -382,8 +385,9 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                     if (progressBar2.getProgress() == 100) {
                         Log.d("Application Key", "" + application.getApplicationID());
 //                        key = mDatabase.child("Application").push().getKey();
-                        application.setApplicant(1, applicant);
-                        mDatabase.child("Application").child(application.getApplicationID()).setValue(application);
+//                        application.setApplicant(1, applicant);
+//                        mDatabase.child("Application").child(application.getApplicationID()).setValue(application);
+                        mDatabase.child("Application").child(application.getApplicationID()).child("applicantList").child("1").setValue(applicant);
 
                         String notifyEmailBody = "Hi " + application.getApplicantList().get(0).getName() + ", you may proceed to review and confirm the details of your joint account application\n\nPlease use this link to continue\n";
                         sendEmail("" + application.getApplicantList().get(0).getEmail(), "OCBC Joint Account Creation", "" + notifyEmailBody);
@@ -397,8 +401,9 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                     }
                     else {
                         key = mDatabase.child("Application").push().getKey();
-                        application = new Application(key, randomNumberString(), applicant);
+                        application = new Application(key, randomNumberString());
                         mDatabase.child("Application").child(key).setValue(application);
+                        mDatabase.child("Application").child(key).child("applicantList").child("0").setValue(applicant);
 
                         Bundle extras = new Bundle();
                         Intent in = new Intent(v.getContext(), SendApplicationCodeActivity.class);
@@ -1108,7 +1113,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 
         // Add Salutations
         titleDropdown = findViewById(R.id.titleDropdown);
-        ArrayAdapter<String> salutationAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, salutations);
+        salutationAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, salutations);
         titleDropdown.setAdapter(salutationAdapter);
 
         titleDropdown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
