@@ -72,6 +72,7 @@ public class SelectApplicationType extends AppCompatActivity {
                 "Engineer",
                 "MARRIED"
         );
+        applicant.setIsSingPass(true);
         return applicant;
     }
 }

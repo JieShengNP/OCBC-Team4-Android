@@ -70,7 +70,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 
     private FirebaseAuth mAuth;
     private FirebaseUser user;
-    TextView forgetPwdTxt, box, genderErrorTxt, emailLbl, passwordLbl, signInTitle1, signInTitle2, selfieErrorTxt;
+    TextView forgetPwdTxt, box, genderErrorTxt, emailLbl, passwordLbl, signInTitle1, signInTitle2, selfieErrorTxt, uploadIcLbl;
     TextInputLayout accessCodeLayout, pinLayout, titleLayout, nameLayout, nationalityLayout, icLayout, raceLayout, dobLayout, postalLayout, streetLayout, blockLayout, unitLayout, phoneLayout, emailLayout, jobLayout, maritalLayout, passwordLayout;
     TextInputEditText accessCodeTxt, pinTxt, nameTxt, icTxt, dobTxt, postalTxt, streetTxt, blockTxt, unitTxt, mobileTxt, emailTxt, occupationTxt, passwordTxt;
     AutoCompleteTextView titleDropdown, countryDropdown, raceDropdown, maritalDropdown;
@@ -91,7 +91,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 
     ArrayAdapter<String> nationalitiesAdapter, racesAdapter, martialAdapter, salutationAdapter;
 
-    boolean isLoggedIn;
+    boolean isLoggedIn, isSingpass;
 
     Button getAddressBtn;
 
@@ -174,6 +174,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         uploadedSelfie = findViewById(R.id.imageView);
         uploadSelfie = findViewById(R.id.uploadBtn);
         selfieErrorTxt = findViewById(R.id.selfieErrorTxt);
+        uploadIcLbl = findViewById(R.id.UploadIcLbl);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -392,10 +393,15 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                     //Marital Status
                     applicant.setMartial(maritalDropdown.getText().toString()==null? selectedMarital: maritalDropdown.getText().toString());
 
-                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                    imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
-                    byte[] bb = bytes.toByteArray();
-                    uploadFirebase(bb, applicant.getNRIC());
+                    //Set Singpass
+                    applicant.setIsSingPass(isSingpass);
+
+                    if (!isSingpass) {
+                        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                        byte[] bb = bytes.toByteArray();
+                        uploadFirebase(bb, applicant.getNRIC());
+                    }
 //                  if progress bar 2 is lighted up, means is second user
                     if (progressBar2.getProgress() == 100) {
                         Log.d("Application Key", "" + application.getApplicationID());
@@ -599,6 +605,12 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 //      Autofill if applicant select SingPass
         Applicant singPassData = (Applicant) in.getSerializableExtra("Applicant");
         if(singPassData != null){
+            //Hide things for SingPass (image)
+            isSingpass = true;
+            uploadedSelfie.setVisibility(View.GONE);
+            uploadSelfie.setVisibility(View.GONE);
+            uploadIcLbl.setVisibility(View.GONE);
+
             //remove login option
             accessCodeLayout.setVisibility(View.GONE);
             pinLayout.setVisibility(View.GONE);
@@ -769,15 +781,14 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
             Log.d("Tag", "13");
             isValid = false;
         }
-
-        try {
-            imageBitmap.getWidth();
+        if (!isSingpass) {
+            try {
+                imageBitmap.getWidth();
+            } catch (NullPointerException e) {
+                isValid = false;
+                selfieErrorTxt.setVisibility(View.VISIBLE);
+            }
         }
-        catch (NullPointerException e){
-            isValid = false;
-            selfieErrorTxt.setVisibility(View.VISIBLE);
-        }
-
         //if user is already logged in
         if(!isLoggedIn){
             //check if email is empty
