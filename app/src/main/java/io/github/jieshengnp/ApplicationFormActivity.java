@@ -215,7 +215,9 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         }
         Collections.sort(countries);
         countries.remove("Singapore");
+        countries.remove("Malaysia");
         countries.add(0, "Singapore");
+        countries.add(1, "Malaysia");
         nationalitiesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, countries);
         countryDropdown.setAdapter(nationalitiesAdapter);
 
