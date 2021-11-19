@@ -1,6 +1,6 @@
 # OCBC_TeamOwl
 
-OCBC Apply done by Marcus, Jie Sheng, Herman, Jarrel and Wei Jie
+OCBC Apply done by Marcus, Jie Sheng, Herman, Jarrell and Wei Jie
 # Background
 At OCBC Bank, online bank account
 opening services for individual accounts are available, and we hope to expand this capability
