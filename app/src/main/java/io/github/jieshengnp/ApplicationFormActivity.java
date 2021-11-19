@@ -400,7 +400,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                     applicant.setMobile(mobileTxt.getText().toString());
 
                     //Email
-                    applicant.setEmail(emailTxt.getText().toString());
+                    applicant.setEmail(isLoggedIn? mAuth.getCurrentUser().getEmail() :emailTxt.getText().toString());
 
                     //Occupation
                     applicant.setOccupation(occupationTxt.getText().toString());
@@ -411,7 +411,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                     //Set Singpass
                     applicant.setIsSingPass(isSingpass);
 
-                    if (!isSingpass) {
+                    if (!isSingpass && !isLoggedIn) {
                         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
                         byte[] bb = bytes.toByteArray();
@@ -801,7 +801,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
             Log.d("Tag", "13");
             isValid = false;
         }
-        if (!isSingpass) {
+        if (!isSingpass && !isLoggedIn) {
             try {
                 imageBitmap.getWidth();
             } catch (NullPointerException e) {
@@ -1152,8 +1152,12 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                     mAuth.signOut();
                     //get login info
                     SignIn(email, password);
+
+                    uploadedSelfie.setVisibility(View.GONE);
+                    uploadSelfie.setVisibility(View.GONE);
+                    uploadIcLbl.setVisibility(View.GONE);
+                    isLoggedIn = true;
                 }
-                isLoggedIn = true;
             }
         });
 
