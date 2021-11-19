@@ -1,6 +1,6 @@
 # OCBC_TeamOwl
 
-OCBC Apply done by Marcus, Jie Sheng, Herman, Jarrell and Wei Jie
+OCBC Apply done by Marcus Yeong Mun Hong (S10208495), Tan Jie Sheng (S10205049B), Cho Wei Lun Herman (S10206327K), Jarrell Soh Jit Kai (S10205047D) and Teo Wei Jie (S10208226H)
 # Background
 At OCBC Bank, online bank account
 opening services for individual accounts are available, and we hope to expand this capability
@@ -38,7 +38,7 @@ Application Form Page 2 (2nd User)
  Review & Confirmation Page
  ![Screenshot 2021-11-19 200207](https://user-images.githubusercontent.com/74399276/142623028-1c2788e9-0702-43ec-b3a8-44d2f7ac0b2a.png)
 
- ## Many auto complete feature (Seamless)
+ ## Many auto complete features (Seamless)
 Able to apply using SingPass myInfo
 :-------------------------:
 ![Screenshot 2021-11-19 194031](https://user-images.githubusercontent.com/74399276/142623048-0d8ba6d1-568c-4f62-a913-1c37e0be55d7.png)
@@ -48,6 +48,45 @@ Autocomplete text fields to help fill in all the details faster
 ![Screenshot 2021-11-19 194148](https://user-images.githubusercontent.com/74399276/142623076-5e3fcb68-2ce7-4d6b-bb4b-ea72e5f2511b.png)
 
 Having all these autocomplete features can help to boost the user experience, while also making the filling form process faster and seamless.
+
+# Contributions
+Wei Jie
+- Meeting minutes: Take and structure notes for discussions
+- Presentation: Slides and Presenting
+- Created basic views for some Layouts
+- Created Trello Board
+
+Jie Sheng
+- Implemented Log-in function for users to view account information (Call from Firebase)
+- Completed View for User dashboard and Accounts page
+- Implemented dropdown lists for application form
+- Completed Comfirmation Page
+- Clean up of code (Bug fixes and views touch up)
+
+Jarrell
+- Implemented validation for application form
+- Implemented Auto-fill for Singpass users, and for existing users (Call from firebase)
+- Implemented Auto-filling of address using only postal code (Call API)
+- Implemented DatePicker for Date-Of-Birth
+
+Marcus 
+- Created Wireframe for majority of the views' UI
+- Implemented application Room feature (Generate and Validate application code)
+- Implemented email functionality (send to User 2)
+- Implemented DeepLink (link straight to application form)
+- Managed Trello Board
+- Created Inception Deck 
+
+Herman
+- Implemented sign up function (Create Account and Write to Firebase)
+- Implemented integration of Camera App(Upload photo for verification)
+- Implemented Firebase storage to store photos
+- Implemented OCR (temporarily removed)
+- Created Inception Deck
+
+Everyone
+- Did Research for Joint Account Creation
+- Created Layouts for the app
 
 # Language Used
 1. Java
