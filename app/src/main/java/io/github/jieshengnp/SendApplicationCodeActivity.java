@@ -43,7 +43,7 @@ public class SendApplicationCodeActivity extends AppCompatActivity {
 
         sendCodeBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String body = "Please do not share this with others\n\nYour application code will be " + application.getApplicationCode() + "\n\n or use this link https://mxrcxsz.github.io/Assignment-1/confirmation/" + application.getApplicationID();
+                String body = "Please do not share this with others\n\nYour application code will be " + application.getApplicationCode() + "\n\n or use this link https://mxrcxsz.github.io/Assignment-1/applicationform/" + application.getApplicationID();
                 sendEmail("" + emailTxt.getText().toString(), "OCBC", body);
             }
         });
