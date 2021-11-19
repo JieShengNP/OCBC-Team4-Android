@@ -422,16 +422,15 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                     
 //                  if progress bar 2 is lighted up, means is second user
                     if (progressBar2.getProgress() == 100) {
-                        Log.d("Application Key", "" + application.getApplicationID());
+//                        Log.d("Application Key", "" + application.getApplicationID());
 //                        key = mDatabase.child("Application").push().getKey();
 //                        application.setApplicant(1, applicant);
 //                        mDatabase.child("Application").child(application.getApplicationID()).setValue(application);
                         mDatabase.child("Application").child(application.getApplicationID()).child("applicantList").child("1").setValue(applicant);
+                        String notifyEmailBody = "Hi " + application.getApplicantList().get(0).getName() + ", you may proceed to review and confirm the details of your joint account application\n\nPlease use this link to continue\nhttps://mxrcxsz.github.io/Assignment-1/confirmation/" + applicationId;
+                        sendEmail("" + application.getApplicantList().get(0).getEmail(), "OCBC Joint Account Creation", "" + notifyEmailBody);
 
                         Log.d("TAG","" + application.getApplicantList().size());
-
-                        String notifyEmailBody = "Hi " + application.getApplicantList().get(0).getName() + ", you may proceed to review and confirm the details of your joint account application\n\nPlease use this link to continue\nhttps://mxrcxsz.github.io/Assignment-1/confirmation/" + application.getApplicationID();
-                        sendEmail("" + application.getApplicantList().get(0).getEmail(), "OCBC Joint Account Creation", "" + notifyEmailBody);
 
                         Bundle extras = new Bundle();
                         Intent in = new Intent(v.getContext(), ConfirmationPage.class);
@@ -604,6 +603,14 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         Uri appLinkData = appLinkIntent.getData();
         if(appLinkData != null){
             applicationId = appLinkData.getLastPathSegment();
+            mDatabase.child("Application").child(applicationId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if(task.isSuccessful()){
+                        application = task.getResult().getValue(Application.class);
+                    }
+                }
+            });
             progressBar2.setProgress(100);
         }
     }
