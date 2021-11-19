@@ -15,7 +15,7 @@
             android:id="@+id/imageView3"
             android:layout_width="145dp"
             android:layout_height="53dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
         <ProgressBar
-            android:id="@+id/progressBar4"
+            android:id="@+id/confirmBar1"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="0dp"
             android:layout_height="30dp"
@@ -45,12 +45,12 @@
 
             android:layout_marginTop="8dp"
             android:layout_marginEnd="4dp"
-            app:layout_constraintEnd_toStartOf="@+id/progressBar13"
+            app:layout_constraintEnd_toStartOf="@+id/confirmBar2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textVie5" />
 
         <ProgressBar
-            android:id="@+id/progressBar5"
+            android:id="@+id/confirmBar3"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="0dp"
             android:layout_height="30dp"
@@ -58,7 +58,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/progressBar13"
+            app:layout_constraintStart_toEndOf="@+id/confirmBar2"
             app:layout_constraintTop_toBottomOf="@+id/textVie5" />
 
         <TextView
@@ -67,9 +67,9 @@
             android:layout_height="39dp"
             android:layout_marginTop="8dp"
             android:text="1st Account Holder Details"
-            app:layout_constraintEnd_toEndOf="@+id/progressBar4"
-            app:layout_constraintStart_toStartOf="@+id/progressBar4"
-            app:layout_constraintTop_toBottomOf="@+id/progressBar4" />
+            app:layout_constraintEnd_toEndOf="@+id/confirmBar1"
+            app:layout_constraintStart_toStartOf="@+id/confirmBar1"
+            app:layout_constraintTop_toBottomOf="@+id/confirmBar1" />
 
         <TextView
             android:id="@+id/textView13"
@@ -77,8 +77,8 @@
             android:layout_height="34dp"
             android:layout_marginTop="8dp"
             android:text="2nd Account Holder Details"
-            app:layout_constraintStart_toStartOf="@+id/progressBar13"
-            app:layout_constraintTop_toBottomOf="@+id/progressBar13" />
+            app:layout_constraintStart_toStartOf="@+id/confirmBar2"
+            app:layout_constraintTop_toBottomOf="@+id/confirmBar2" />
 
         <TextView
             android:id="@+id/textView14"
@@ -86,18 +86,18 @@
             android:layout_height="34dp"
             android:layout_marginTop="8dp"
             android:text="Review And Confirmation"
-            app:layout_constraintEnd_toEndOf="@+id/progressBar5"
-            app:layout_constraintStart_toStartOf="@+id/progressBar5"
-            app:layout_constraintTop_toBottomOf="@+id/progressBar5" />
+            app:layout_constraintEnd_toEndOf="@+id/confirmBar3"
+            app:layout_constraintStart_toStartOf="@+id/confirmBar3"
+            app:layout_constraintTop_toBottomOf="@+id/confirmBar3" />
 
         <ProgressBar
-            android:id="@+id/progressBar13"
+            android:id="@+id/confirmBar2"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/progressBar5"
-            app:layout_constraintStart_toEndOf="@+id/progressBar4"
+            app:layout_constraintEnd_toStartOf="@+id/confirmBar3"
+            app:layout_constraintStart_toEndOf="@+id/confirmBar1"
             app:layout_constraintTop_toBottomOf="@+id/textVie5" />
 
         <Button
@@ -105,7 +105,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
+            android:layout_marginBottom="100dp"
             android:text="Confirm"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/confirmSecondPersonConstraint" />

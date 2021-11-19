@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".SelectAccountActivity">
 
+    <ImageView
+        android:id="@+id/imageView13"
+        android:layout_width="145dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="12dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.377"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ocbc_bank_logo_png_transparent" />
+
     <TextView
         android:id="@+id/Acc360Btn"
         android:layout_width="374dp"
@@ -76,13 +88,13 @@ form to fill in their personal details."
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:text="Select Your Account"
         android:textSize="22dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView13" />
 
     <ImageView
         android:id="@+id/imageView2"

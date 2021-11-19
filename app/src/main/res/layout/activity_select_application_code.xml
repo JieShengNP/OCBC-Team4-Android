@@ -6,24 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".SelectApplicationCode">
 
+    <ImageView
+        android:id="@+id/imageView15"
+        android:layout_width="145dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="12dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ocbc_bank_logo_png_transparent" />
+
     <TextView
         android:id="@+id/appCodeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:text="Before we start"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView15" />
 
     <TextView
         android:id="@+id/appCodeText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="64dp"
         android:text="Do you have an application code?"
         android:textAlignment="center"
