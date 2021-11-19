@@ -2,6 +2,7 @@ package io.github.jieshengnp;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,6 +10,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -86,6 +88,8 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
     Button uploadSelfie;
     ActivityResultLauncher<Intent> activityResultLauncher;
     Bitmap imageBitmap;
+
+    private String android_id;
     private static final int REQUEST_CAMERA_CODE = 100;
     StorageReference storageRef = FirebaseStorage.getInstance("gs://ocbc-team4-2b3ee.appspot.com/").getReference();
 
@@ -105,10 +109,14 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
     String[] marital = {"DIVORCED", "MARRIED", "SEPARATED", "SINGLE", "WIDOWED"};
     RadioGroup genderGroup;
 
+    @SuppressLint("HardwareIds")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_form);
+
+        android_id = Settings.Secure.getString(getBaseContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
 
 //      Initialise data
         forgetPwdTxt = findViewById(R.id.forgetPwdTxt);
@@ -317,31 +325,36 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                     imageBitmap = (Bitmap) extras.get("data");
                     uploadedSelfie.setImageBitmap(imageBitmap);
                 }
-
             }
         });
+
+        if (ContextCompat.checkSelfPermission(ApplicationFormActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(ApplicationFormActivity.this, new String[]{
+                    Manifest.permission.CAMERA
+            }, REQUEST_CAMERA_CODE);
+        }
 
         uploadSelfie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (ContextCompat.checkSelfPermission(ApplicationFormActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-
-                    ActivityCompat.requestPermissions(ApplicationFormActivity.this, new String[]{
-                            Manifest.permission.CAMERA
-
-
-                    }, REQUEST_CAMERA_CODE);
-
+                try {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        activityResultLauncher.launch(intent);
+                        selfieErrorTxt.setVisibility(View.GONE);
+                    } else {
+                        Toast.makeText(ApplicationFormActivity.this, "Cant Open",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
+                catch (Exception e){
+                    if (ContextCompat.checkSelfPermission(ApplicationFormActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    activityResultLauncher.launch(intent);
-                    selfieErrorTxt.setVisibility(View.GONE);
-                } else {
-                    Toast.makeText(ApplicationFormActivity.this, "Cant Open",
-                            Toast.LENGTH_SHORT).show();
+                        ActivityCompat.requestPermissions(ApplicationFormActivity.this, new String[]{
+                                Manifest.permission.CAMERA
+                        }, REQUEST_CAMERA_CODE);
+                    }
                 }
             }
         });
@@ -402,6 +415,9 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                         byte[] bb = bytes.toByteArray();
                         uploadFirebase(bb, applicant.getNRIC());
                     }
+                    //Device Id
+                    applicant.setDeviceId(android_id);
+                    
 //                  if progress bar 2 is lighted up, means is second user
                     if (progressBar2.getProgress() == 100) {
                         Log.d("Application Key", "" + application.getApplicationID());
@@ -410,7 +426,9 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 //                        mDatabase.child("Application").child(application.getApplicationID()).setValue(application);
                         mDatabase.child("Application").child(application.getApplicationID()).child("applicantList").child("1").setValue(applicant);
 
-                        String notifyEmailBody = "Hi " + application.getApplicantList().get(0).getName() + ", you may proceed to review and confirm the details of your joint account application\n\nPlease use this link to continue\n";
+                        Log.d("TAG","" + application.getApplicantList().size());
+
+                        String notifyEmailBody = "Hi " + application.getApplicantList().get(0).getName() + ", you may proceed to review and confirm the details of your joint account application\n\nPlease use this link to continue\nhttps://mxrcxsz.github.io/Assignment-1/confirmation/" + application.getApplicationID();
                         sendEmail("" + application.getApplicantList().get(0).getEmail(), "OCBC Joint Account Creation", "" + notifyEmailBody);
 
                         Bundle extras = new Bundle();
