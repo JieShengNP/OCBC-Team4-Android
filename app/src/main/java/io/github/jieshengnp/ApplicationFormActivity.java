@@ -2,6 +2,7 @@ package io.github.jieshengnp;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,6 +10,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -69,7 +71,6 @@ import java.util.Random;
 public class ApplicationFormActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
     private FirebaseAuth mAuth;
-    private FirebaseUser user;
     TextView forgetPwdTxt, box, genderErrorTxt, emailLbl, passwordLbl, signInTitle1, signInTitle2, selfieErrorTxt;
     TextInputLayout accessCodeLayout, pinLayout, titleLayout, nameLayout, nationalityLayout, icLayout, raceLayout, dobLayout, postalLayout, streetLayout, blockLayout, unitLayout, phoneLayout, emailLayout, jobLayout, maritalLayout, passwordLayout;
     TextInputEditText accessCodeTxt, pinTxt, nameTxt, icTxt, dobTxt, postalTxt, streetTxt, blockTxt, unitTxt, mobileTxt, emailTxt, occupationTxt, passwordTxt;
@@ -86,6 +87,8 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
     Button uploadSelfie;
     ActivityResultLauncher<Intent> activityResultLauncher;
     Bitmap imageBitmap;
+
+    private String android_id;
     private static final int REQUEST_CAMERA_CODE = 100;
     StorageReference storageRef = FirebaseStorage.getInstance("gs://ocbc-team4-2b3ee.appspot.com/").getReference();
 
@@ -105,10 +108,14 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
     String[] marital = {"DIVORCED", "MARRIED", "SEPARATED", "SINGLE", "WIDOWED"};
     RadioGroup genderGroup;
 
+    @SuppressLint("HardwareIds")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application_form);
+
+        android_id = Settings.Secure.getString(getBaseContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
 
 //      Initialise data
         forgetPwdTxt = findViewById(R.id.forgetPwdTxt);
@@ -316,31 +323,36 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                     imageBitmap = (Bitmap) extras.get("data");
                     uploadedSelfie.setImageBitmap(imageBitmap);
                 }
-
             }
         });
+
+        if (ContextCompat.checkSelfPermission(ApplicationFormActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(ApplicationFormActivity.this, new String[]{
+                    Manifest.permission.CAMERA
+            }, REQUEST_CAMERA_CODE);
+        }
 
         uploadSelfie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if (ContextCompat.checkSelfPermission(ApplicationFormActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-
-                    ActivityCompat.requestPermissions(ApplicationFormActivity.this, new String[]{
-                            Manifest.permission.CAMERA
-
-
-                    }, REQUEST_CAMERA_CODE);
-
+                try {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        activityResultLauncher.launch(intent);
+                        selfieErrorTxt.setVisibility(View.GONE);
+                    } else {
+                        Toast.makeText(ApplicationFormActivity.this, "Cant Open",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
+                catch (Exception e){
+                    if (ContextCompat.checkSelfPermission(ApplicationFormActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    activityResultLauncher.launch(intent);
-                    selfieErrorTxt.setVisibility(View.GONE);
-                } else {
-                    Toast.makeText(ApplicationFormActivity.this, "Cant Open",
-                            Toast.LENGTH_SHORT).show();
+                        ActivityCompat.requestPermissions(ApplicationFormActivity.this, new String[]{
+                                Manifest.permission.CAMERA
+                        }, REQUEST_CAMERA_CODE);
+                    }
                 }
             }
         });
@@ -389,6 +401,9 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                     //Marital Status
                     applicant.setMartial(selectedMarital);
 
+                    //Device Id
+                    applicant.setDeviceId(android_id);
+
                     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                     imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
                     byte[] bb = bytes.toByteArray();
@@ -399,6 +414,8 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 //                        key = mDatabase.child("Application").push().getKey();
                         application.setApplicant(1, applicant);
                         mDatabase.child("Application").child(application.getApplicationID()).setValue(application);
+
+                        Log.d("TAG","" + application.getApplicantList().size());
 
                         String notifyEmailBody = "Hi " + application.getApplicantList().get(0).getName() + ", you may proceed to review and confirm the details of your joint account application\n\nPlease use this link to continue\n";
                         sendEmail("" + application.getApplicantList().get(0).getEmail(), "OCBC Joint Account Creation", "" + notifyEmailBody);

@@ -1,11 +1,14 @@
 package io.github.jieshengnp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,12 +29,17 @@ public class EnterApplicationCodeActivity extends AppCompatActivity {
     List<Application> applicationList = new ArrayList<>();
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://ocbc-team4-2b3ee-default-rtdb.asia-southeast1.firebasedatabase.app/");
     DatabaseReference mDatabase = firebaseDatabase.getReference();
+    private String android_id;
 
+    @SuppressLint("HardwareIds")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_application_code);
 
+        android_id = Settings.Secure.getString(getBaseContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+        Log.d("DeviceId", android_id);
         mDatabase.child("Application").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -54,15 +62,24 @@ public class EnterApplicationCodeActivity extends AppCompatActivity {
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean found = false;
                 for(Application application : applicationList){
                     if(applicationCodeTxt.getText().toString().equals(application.getApplicationCode())){
-                        Bundle extras = new Bundle();
-//                        extras.putString("ApplicationID", application.getApplicationID());
+                        found = true;Bundle extras = new Bundle();
                         extras.putSerializable("Application", application);
-                        Intent in = new Intent(EnterApplicationCodeActivity.this, SelectApplicationType.class);
+                        Intent in;
+                        if(application.getApplicantList().get(0).getDeviceId().equals(android_id)){
+                            in = new Intent(EnterApplicationCodeActivity.this, SendApplicationCodeActivity.class);
+                        }
+                        else{
+                            in = new Intent(EnterApplicationCodeActivity.this, SelectApplicationType.class);
+                        }
                         in.putExtras(extras);
                         startActivity(in);
                     }
+                }
+                if(found == false){
+                    Toast.makeText(getApplicationContext(), "Invalid application code, please try again", Toast.LENGTH_SHORT).show();
                 }
             }
         });

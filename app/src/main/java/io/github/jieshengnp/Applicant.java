@@ -20,6 +20,7 @@ public class Applicant implements Serializable{
     private String Email;
     private String Occupation;
     private String Martial;
+    private String DeviceId;
     public HashMap<String, Boolean> Accounts;
 
     public Boolean getSingPass() {
@@ -153,6 +154,14 @@ public class Applicant implements Serializable{
     public Boolean getIsSingPass(){ return isSingPass;}
 
     public void setIsSingPass(Boolean isSingPass){this.isSingPass = isSingPass;}
+
+    public String getDeviceId() {
+        return DeviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        DeviceId = deviceId;
+    }
 
     public Applicant(){}
 
