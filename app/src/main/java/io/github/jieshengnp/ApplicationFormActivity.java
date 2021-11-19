@@ -421,7 +421,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 
                         Log.d("TAG","" + application.getApplicantList().size());
 
-                        String notifyEmailBody = "Hi " + application.getApplicantList().get(0).getName() + ", you may proceed to review and confirm the details of your joint account application\n\nPlease use this link to continue\n";
+                        String notifyEmailBody = "Hi " + application.getApplicantList().get(0).getName() + ", you may proceed to review and confirm the details of your joint account application\n\nPlease use this link to continue\nhttps://mxrcxsz.github.io/Assignment-1/confirmation/" + application.getApplicationID();
                         sendEmail("" + application.getApplicantList().get(0).getEmail(), "OCBC Joint Account Creation", "" + notifyEmailBody);
 
                         Bundle extras = new Bundle();

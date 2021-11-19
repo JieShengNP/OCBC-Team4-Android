@@ -47,8 +47,6 @@ public class EnterApplicationCodeActivity extends AppCompatActivity {
                 for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
                     applicationList.add(eventSnapshot.getValue(Application.class));
                 }
-
-                Log.d("SIZE", "" + applicationList.size());
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
