@@ -169,6 +169,46 @@ public class ConfirmationPage extends AppCompatActivity {
             currentApplicant = applicant2;
         }
 
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adBuilder.setTitle("Are you sure?");
+                adBuilder.setMessage("Press Yes to confirm and give consent for the application, otherwise No to return back to the details page.");
+                adBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        application.getApplicantAccepted().put(currentApplicant.getNRIC(), true);
+                        mDatabase.child("Application").child(application.getApplicationID()).setValue(application);
+                        UpdateStatus();
+                    }
+                });
+                adBuilder.setNegativeButton("No", null);
+                adBuilder.setCancelable(false);
+                adBuilder.show();
+            }
+        });
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adBuilder.setTitle("Are you sure?");
+                adBuilder.setMessage("Press Yes to confirm and cancel the entire application, otherwise No to return back to the details page.");
+                adBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        application.getApplicantAccepted().put(currentApplicant.getNRIC(), false);
+                        mDatabase.child("Application").child(application.getApplicationID()).setValue(application);
+                        UpdateStatus();
+                    }
+                });
+                adBuilder.setNegativeButton("No", null);
+                adBuilder.setCancelable(false);
+                adBuilder.show();
+            }
+        });
+        UpdateStatus();
+    }
+    private void UpdateStatus(){
         if (currentApplicant != null) {
             confirmWelcome = findViewById(R.id.confirmWelcome);
             if(application.getApplicantAccepted().get(currentApplicant.getNRIC()) != null && application.getApplicantAccepted().get(currentApplicant.getNRIC())) {
@@ -183,43 +223,8 @@ public class ConfirmationPage extends AppCompatActivity {
                 cancelBtn.setVisibility(View.GONE);
             } else {
                 confirmWelcome.setText(confirmWelcome.getText() + " " + currentApplicant.getName() + "!");
-                confirmBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        adBuilder.setTitle("Are you sure?");
-                        adBuilder.setMessage("Press Yes to confirm and give consent for the application, otherwise No to return back to the details page.");
-                        adBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                application.getApplicantAccepted().put(currentApplicant.getNRIC(), true);
-                                mDatabase.child("Application").child(application.getApplicationID()).setValue(application);
-                            }
-                        });
-                        adBuilder.setNegativeButton("No", null);
-                        adBuilder.setCancelable(false);
-                        adBuilder.show();
-                    }
-                });
 
-                cancelBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        adBuilder.setTitle("Are you sure?");
-                        adBuilder.setMessage("Press Yes to confirm and cancel the entire application, otherwise No to return back to the details page.");
-                        adBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                application.getApplicantAccepted().put(currentApplicant.getNRIC(), false);
-                                mDatabase.child("Application").child(application.getApplicationID()).setValue(application);
-                            }
-                        });
-                        adBuilder.setNegativeButton("No", null);
-                        adBuilder.setCancelable(false);
-                        adBuilder.show();
-                    }
-                });
             }
         }
-
     }
 }
