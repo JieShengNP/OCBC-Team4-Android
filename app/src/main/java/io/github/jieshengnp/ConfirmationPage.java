@@ -2,6 +2,7 @@ package io.github.jieshengnp;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -170,8 +171,14 @@ public class ConfirmationPage extends AppCompatActivity {
 
         if (currentApplicant != null) {
             confirmWelcome = findViewById(R.id.confirmWelcome);
-            if(application.getApplicantAccepted().get(currentApplicant.getNRIC()) != null && application.getApplicantAccepted().get(currentApplicant.getNRIC())){
+            if(application.getApplicantAccepted().get(currentApplicant.getNRIC()) != null && application.getApplicantAccepted().get(currentApplicant.getNRIC())) {
                 confirmWelcome.setText("Welcome " + currentApplicant.getName() + ", you have already confirmed the application.");
+                confirmWelcome.setTextColor(Color.GREEN);
+                confirmBtn.setVisibility(View.GONE);
+                cancelBtn.setVisibility(View.GONE);
+            } else if (application.getApplicantAccepted().containsValue(false)){
+                confirmWelcome.setText("This application has been deemed void by one of the applicant.");
+                confirmWelcome.setTextColor(Color.RED);
                 confirmBtn.setVisibility(View.GONE);
                 cancelBtn.setVisibility(View.GONE);
             } else {
