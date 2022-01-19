@@ -18,9 +18,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseError;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +95,8 @@ public class ConfirmationPage extends AppCompatActivity {
         if (!handleConfirmationDeepLink()) {
             Intent getIn = getIntent();
             application = (Application) getIn.getSerializableExtra("Application");
-            ObtainDataFromFirebase(application.getApplicationID());
+            applicationId = application.getApplicationID();
+            ObtainDataFromFirebase(applicationId);
         }
     }
 
@@ -180,6 +184,12 @@ public class ConfirmationPage extends AppCompatActivity {
                         application.getApplicantAccepted().put(currentApplicant.getNRIC(), true);
                         mDatabase.child("Application").child(application.getApplicationID()).setValue(application);
                         UpdateStatus();
+                        if (application.getApplicantAccepted().containsKey(applicant1.getNRIC()) && application.getApplicantAccepted().containsKey(applicant2.getNRIC()) && !application.getApplicantAccepted().containsValue(false)){
+                            sendConfirmationEmail(applicant1.getEmail(), "OCBC Account", "Both applicant has confirmed the application process and it is now under review by OCBC.");
+                            sendConfirmationEmail(applicant2.getEmail(), "OCBC Account", "Both applicant has confirmed the application process and it is now under review by OCBC.");
+                            moveFirebaseRecord(mDatabase.child("Application").child(applicationId).getRef(), mDatabase.child("CompletedApplication").child(applicationId).getRef());
+                            mDatabase.child("Application").child(applicationId).removeValue();
+                        }
                     }
                 });
                 adBuilder.setNegativeButton("No", null);
@@ -226,5 +236,50 @@ public class ConfirmationPage extends AppCompatActivity {
 
             }
         }
+    }
+
+    public void sendConfirmationEmail(String recipient, String subject, String body){
+        new Thread(() -> {
+            try {
+                GmailSender sender = new GmailSender("ocbc.auth@gmail.com",
+                        "PasswordForOcbc");
+                sender.sendMail(subject, body,
+                        "ocbc.auth@gmail.com", "" + recipient);
+            } catch (Exception e) {
+                Log.e("SendMail", e.getMessage(), e);
+            }
+        }).start();
+    }
+
+    public void moveFirebaseRecord(DatabaseReference fromPath, final DatabaseReference toPath)
+    {
+        fromPath.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                toPath.setValue(dataSnapshot.getValue(), new DatabaseReference.CompletionListener()
+                {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference firebase)
+                    {
+                        if (databaseError != null)
+                        {
+                            Log.v("Firebase Moving", "Error: " + databaseError.getMessage());
+                        }
+                        else
+                        {
+                            Log.v("Firebase Moving", "Success");
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.v("Firebase Moving", "Cancelled: " + databaseError.getMessage());
+            }
+        });
     }
 }
