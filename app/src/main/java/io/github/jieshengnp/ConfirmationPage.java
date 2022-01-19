@@ -1,35 +1,44 @@
 package io.github.jieshengnp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseError;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConfirmationPage extends AppCompatActivity {
     ProgressBar confirmBar1,confirmBar2,confirmBar3;
-    Button accCreate1,accCreate2;
+    Button confirmBtn, cancelBtn;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://ocbc-team4-2b3ee-default-rtdb.asia-southeast1.firebasedatabase.app/");
-    String applicationId;
+    String applicationId, deviceId;
     Application application;
     List<Application> applicationList = new ArrayList<>();
     DatabaseReference mDatabase = firebaseDatabase.getReference();
-    TextView confirmTitle1, confirmName1, confirmNationality1, confirmNRIC1, confirmRace1, confirmDOB1, confirmGender1, confirmPostal1, confirmStreet1, confirmBlock1, confirmUnit1, confirmMobile1, confirmEmail1, confirmOccupation1, confirmMarital1, confirmTitle2, confirmName2, confirmNationality2, confirmNRIC2, confirmRace2, confirmDOB2, confirmGender2, confirmPostal2, confirmStreet2, confirmBlock2, confirmUnit2, confirmMobile2, confirmEmail2, confirmOccupation2, confirmMarital2;
-    Applicant applicant1, applicant2;
+    TextView confirmTitle1, confirmName1, confirmNationality1, confirmNRIC1, confirmRace1, confirmDOB1, confirmGender1, confirmPostal1, confirmStreet1, confirmBlock1, confirmUnit1, confirmMobile1, confirmEmail1, confirmOccupation1, confirmMarital1, confirmTitle2, confirmName2, confirmNationality2, confirmNRIC2, confirmRace2, confirmDOB2, confirmGender2, confirmPostal2, confirmStreet2, confirmBlock2, confirmUnit2, confirmMobile2, confirmEmail2, confirmOccupation2, confirmMarital2, confirmWelcome;
+    Applicant applicant1, applicant2, currentApplicant;
+    AlertDialog.Builder adBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,14 +84,20 @@ public class ConfirmationPage extends AppCompatActivity {
         confirmOccupation2 = findViewById(R.id.confirmOccupation2);
         confirmMarital2 = findViewById(R.id.confirmMarital2);
 
+        confirmBtn = findViewById(R.id.confirmBtn);
+        cancelBtn = findViewById(R.id.cancelBtn);
+
+        adBuilder = new AlertDialog.Builder(ConfirmationPage.this);
+
+        deviceId = Settings.Secure.getString(getBaseContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
         // ATTENTION: This was auto-generated to handle app links.
         if (!handleConfirmationDeepLink()) {
             Intent getIn = getIntent();
             application = (Application) getIn.getSerializableExtra("Application");
-            ObtainDataFromFirebase(application.getApplicationID());
+            applicationId = application.getApplicationID();
+            ObtainDataFromFirebase(applicationId);
         }
-
-
     }
 
     @Override
@@ -150,5 +165,121 @@ public class ConfirmationPage extends AppCompatActivity {
         confirmEmail2.setText(applicant2.getEmail());
         confirmOccupation2.setText(applicant2.getOccupation());
         confirmMarital2.setText(applicant2.getMartial());
+
+
+        if (deviceId.equals(applicant1.getDeviceId())){
+            currentApplicant = applicant1;
+        } else if (deviceId.equals(applicant2.getDeviceId())){
+            currentApplicant = applicant2;
+        }
+
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adBuilder.setTitle("Are you sure?");
+                adBuilder.setMessage("Press Yes to confirm and give consent for the application, otherwise No to return back to the details page.");
+                adBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        application.getApplicantAccepted().put(currentApplicant.getNRIC(), true);
+                        mDatabase.child("Application").child(application.getApplicationID()).setValue(application);
+                        UpdateStatus();
+                        if (application.getApplicantAccepted().containsKey(applicant1.getNRIC()) && application.getApplicantAccepted().containsKey(applicant2.getNRIC()) && !application.getApplicantAccepted().containsValue(false)){
+                            sendConfirmationEmail(applicant1.getEmail(), "OCBC Account", "Both applicant has confirmed the application process and it is now under review by OCBC.");
+                            sendConfirmationEmail(applicant2.getEmail(), "OCBC Account", "Both applicant has confirmed the application process and it is now under review by OCBC.");
+                            moveFirebaseRecord(mDatabase.child("Application").child(applicationId).getRef(), mDatabase.child("CompletedApplication").child(applicationId).getRef());
+                            mDatabase.child("Application").child(applicationId).removeValue();
+                        }
+                    }
+                });
+                adBuilder.setNegativeButton("No", null);
+                adBuilder.setCancelable(false);
+                adBuilder.show();
+            }
+        });
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adBuilder.setTitle("Are you sure?");
+                adBuilder.setMessage("Press Yes to confirm and cancel the entire application, otherwise No to return back to the details page.");
+                adBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        application.getApplicantAccepted().put(currentApplicant.getNRIC(), false);
+                        mDatabase.child("Application").child(application.getApplicationID()).setValue(application);
+                        UpdateStatus();
+                    }
+                });
+                adBuilder.setNegativeButton("No", null);
+                adBuilder.setCancelable(false);
+                adBuilder.show();
+            }
+        });
+        UpdateStatus();
+    }
+    private void UpdateStatus(){
+        if (currentApplicant != null) {
+            confirmWelcome = findViewById(R.id.confirmWelcome);
+            if(application.getApplicantAccepted().get(currentApplicant.getNRIC()) != null && application.getApplicantAccepted().get(currentApplicant.getNRIC())) {
+                confirmWelcome.setText("Welcome " + currentApplicant.getName() + ", you have already confirmed the application.");
+                confirmWelcome.setTextColor(Color.GREEN);
+                confirmBtn.setVisibility(View.GONE);
+                cancelBtn.setVisibility(View.GONE);
+            } else if (application.getApplicantAccepted().containsValue(false)){
+                confirmWelcome.setText("This application has been deemed void by one of the applicant.");
+                confirmWelcome.setTextColor(Color.RED);
+                confirmBtn.setVisibility(View.GONE);
+                cancelBtn.setVisibility(View.GONE);
+            } else {
+                confirmWelcome.setText(confirmWelcome.getText() + " " + currentApplicant.getName() + "!");
+
+            }
+        }
+    }
+
+    public void sendConfirmationEmail(String recipient, String subject, String body){
+        new Thread(() -> {
+            try {
+                GmailSender sender = new GmailSender("ocbc.auth@gmail.com",
+                        "PasswordForOcbc");
+                sender.sendMail(subject, body,
+                        "ocbc.auth@gmail.com", "" + recipient);
+            } catch (Exception e) {
+                Log.e("SendMail", e.getMessage(), e);
+            }
+        }).start();
+    }
+
+    public void moveFirebaseRecord(DatabaseReference fromPath, final DatabaseReference toPath)
+    {
+        fromPath.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                toPath.setValue(dataSnapshot.getValue(), new DatabaseReference.CompletionListener()
+                {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference firebase)
+                    {
+                        if (databaseError != null)
+                        {
+                            Log.v("Firebase Moving", "Error: " + databaseError.getMessage());
+                        }
+                        else
+                        {
+                            Log.v("Firebase Moving", "Success");
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.v("Firebase Moving", "Cancelled: " + databaseError.getMessage());
+            }
+        });
     }
 }

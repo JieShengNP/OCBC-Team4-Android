@@ -62,14 +62,20 @@ public class EnterApplicationCodeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 boolean found = false;
                 for(Application application : applicationList){
-                    if(applicationCodeTxt.getText().toString().equals(application.getApplicationCode())){
-                        found = true;Bundle extras = new Bundle();
+                    if(applicationCodeTxt.getText().toString().equals(application.getApplicationCode())) {
+                        found = true;
+                        Bundle extras = new Bundle();
                         extras.putSerializable("Application", application);
                         Intent in;
-                        if(application.getApplicantList().get(0).getDeviceId().equals(android_id)){
+                        if (application.getApplicantList().get(0).getDeviceId().equals(android_id) && application.getApplicantList().size() == 1) {
                             in = new Intent(EnterApplicationCodeActivity.this, SendApplicationCodeActivity.class);
-                        }
-                        else{
+                        } else if (application.getApplicantList().size() == 2 && (application.getApplicantList().get(0).getDeviceId().equals(android_id) || application.getApplicantList().get(1).getDeviceId().equals(android_id))) {
+                            in = new Intent(EnterApplicationCodeActivity.this, ConfirmationPage.class);
+                        } else if (application.getApplicantList().size() == 2){
+                            // Disable Application if there's already 2 applicants and none of the device ID matches
+                            found = false;
+                            break;
+                        } else {
                             in = new Intent(EnterApplicationCodeActivity.this, SelectApplicationType.class);
                         }
                         in.putExtras(extras);

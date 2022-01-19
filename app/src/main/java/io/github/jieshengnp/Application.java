@@ -2,12 +2,14 @@ package io.github.jieshengnp;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Application implements Serializable {
     private String applicationID;
     private List<Applicant> applicantList = new ArrayList<Applicant>();
     private String applicationCode;
+    private HashMap<String, Boolean> applicantAccepted = new HashMap<>();
 
     public String getApplicationID() {
         return applicationID;
@@ -39,6 +41,14 @@ public class Application implements Serializable {
 
     public void setApplicationCode(String applicationCode) {
         this.applicationCode = applicationCode;
+    }
+
+    public HashMap<String, Boolean> getApplicantAccepted() {
+        return applicantAccepted;
+    }
+
+    public void setApplicantAccepted(HashMap<String, Boolean> applicantAccepted) {
+        this.applicantAccepted = applicantAccepted;
     }
 
     public Application(){}
