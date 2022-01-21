@@ -5,9 +5,6 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
-
 
     <queries>
 
@@ -24,11 +21,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OCBCTeam4Android">
-        <activity android:name=".DashboardActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".AccountDetailsActivity" />
+        <activity android:name=".DashboardActivity"></activity>
+        <activity android:name=".LoginActivity"></activity>
         <activity android:name=".ConfirmationPage">
-            <tools:validation testUrl="https://mxrcxsz.github.io/Assignment-1/confirmation/-MonHZFjUAUJpR02hJp6&quot;" />
+            <tools:validation testUrl='https://mxrcxsz.github.io/Assignment-1/confirmation/-MonHZFjUAUJpR02hJp6"' />
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -38,15 +34,14 @@
 
                 <data
                     android:host="mxrcxsz.github.io"
-                    android:pathPrefix="/Assignment-1/confirmation"
-                    android:scheme="https" />
+                    android:scheme="https"
+                    android:pathPrefix="/Assignment-1/confirmation" />
             </intent-filter>
         </activity>
         <activity android:name=".SendApplicationCodeActivity" />
         <activity android:name=".EnterApplicationCodeActivity" />
         <activity android:name=".ApplicationFormActivity">
             <tools:validation testUrl="https://mxrcxsz.github.io/Assignment-1/applicationform/-MonKg_evcudll3bMUYG" />
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -54,13 +49,13 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
+                    android:scheme="https"
                     android:host="mxrcxsz.github.io"
-                    android:pathPrefix="/Assignment-1/applicationform"
-                    android:scheme="https" />
+                    android:pathPrefix="/Assignment-1/applicationform" />
             </intent-filter>
         </activity>
         <activity android:name=".SelectApplicationType" />
-        <activity android:name=".SelectApplicationCode" />
+        <activity android:name=".SelectApplicationCode"></activity>
         <activity android:name=".SelectAccountType" />
         <activity
             android:name=".SelectAccountActivity"
