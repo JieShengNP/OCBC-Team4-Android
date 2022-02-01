@@ -23,14 +23,6 @@ public class Applicant implements Serializable{
     private String DeviceId;
     public HashMap<String, Boolean> Accounts;
 
-    public Boolean getSingPass() {
-        return isSingPass;
-    }
-
-    public void setSingPass(Boolean singPass) {
-        isSingPass = singPass;
-    }
-
     public String getTitle() {
         return Title;
     }

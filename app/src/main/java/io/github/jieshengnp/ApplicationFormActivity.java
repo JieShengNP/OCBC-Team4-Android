@@ -314,7 +314,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ApplicationFormActivity.this, ConfirmationPage.class);
+                Intent i = new Intent(ApplicationFormActivity.this, SelectApplicationType.class);
                 startActivity(i);
             }
         });
@@ -422,21 +422,15 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                     
 //                  if progress bar 2 is lighted up, means is second user
                     if (progressBar2.getProgress() == 100) {
+//                        Log.d("Application Key", "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 //                        Log.d("Application Key", "" + application.getApplicationID());
-//                        key = mDatabase.child("Application").push().getKey();
-//                        application.setApplicant(1, applicant);
-//                        mDatabase.child("Application").child(application.getApplicationID()).setValue(application);
+//                        Log.d("Application Key", "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                        key = mDatabase.child("Application").push().getKey();
+                        application.setApplicant(1, applicant);
+                        mDatabase.child("Application").child(application.getApplicationID()).setValue(application);
                         mDatabase.child("Application").child(application.getApplicationID()).child("applicantList").child("1").setValue(applicant);
-                        String notifyEmailBody = "Hi " + application.getApplicantList().get(0).getName() + ", you may proceed to review and confirm the details of your joint account application\n\nPlease use this link to continue\nhttps://mxrcxsz.github.io/Assignment-1/confirmation/" + applicationId;
+                        String notifyEmailBody = "Hi " + application.getApplicantList().get(0).getName() + ", you may proceed to review and confirm the details of your joint account application\n\nPlease use this link to continue\nhttps://mxrcxsz.github.io/Assignment-1/confirmation/" + application.getApplicationID();
                         sendEmail("" + application.getApplicantList().get(0).getEmail(), "OCBC Joint Account Creation", "" + notifyEmailBody);
-
-                        Log.d("TAG","" + application.getApplicantList().size());
-
-                        Bundle extras = new Bundle();
-                        Intent in = new Intent(v.getContext(), ConfirmationPage.class);
-                        extras.putSerializable("Application", application);
-                        in.putExtras(extras);
-                        v.getContext().startActivity(in);
 
                     }
                     else {
@@ -445,16 +439,45 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                         mDatabase.child("Application").child(key).setValue(application);
                         mDatabase.child("Application").child(key).child("applicantList").child("0").setValue(applicant);
 
-                        Bundle extras = new Bundle();
-                        Intent in = new Intent(v.getContext(), SendApplicationCodeActivity.class);
-                        extras.putSerializable("Application", application);
-                        in.putExtras(extras);
-                        v.getContext().startActivity(in);
+//                        mDatabase.child("User").child()
                     }
+//                  Create an account for applicant if they do not have any
+                    SignUp(applicant, passwordTxt.getText().toString());
                 }
             }
         });
         validateInputInfo();
+    }
+
+    private void SignUp(Applicant applicant, String password) {
+        mAuth.createUserWithEmailAndPassword(applicant.getEmail(), password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+//                          Sign up success, bring user to log in page
+                            Log.d("Create", "createUserWithEmail:success");
+//                          Get current user
+                            FirebaseUser user = mAuth.getCurrentUser();
+
+                            applicant.setDeviceId(null);
+                            applicant.setIsSingPass(null);
+                            //set username and save it to firebase
+                            mDatabase.child("User").child(user.getUid()).setValue(applicant);
+                        }
+
+                        Bundle extras = new Bundle();
+                        Intent in;
+                        if(progressBar2.getProgress() == 100){
+                            in = new Intent(ApplicationFormActivity.this, ConfirmationPage.class);
+                        }else {
+                            in = new Intent(ApplicationFormActivity.this, SendApplicationCodeActivity.class);
+                        }
+                        extras.putSerializable("Application", application);
+                        in.putExtras(extras);
+                        ApplicationFormActivity.this.startActivity(in);
+                    }
+                });
     }
 
     private void uploadFirebase(byte[]bb, String nric){
@@ -656,7 +679,6 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 //            passwordLbl.setVisibility(View.GONE);
 //            passwordLayout.setVisibility(View.GONE);
             applicant = singPassData;
-            applicant.setSingPass(true);
 
             //Title
             titleDropdown.setText(applicant.getTitle(), false);
