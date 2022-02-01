@@ -23,7 +23,7 @@ public class SelectAccountActivity extends AppCompatActivity {
         accFRANKBtn = findViewById(R.id.AccFRANKBtn);
         img1 = findViewById(R.id.imageView2);
         img2 = findViewById(R.id.imageView3);
-        img3 = findViewById(R.id.imageView4);
+        img3 = findViewById(R.id.appCodeBackBtn);
         labelTxt = findViewById(R.id.textView3);
         desTxt = findViewById(R.id.descTxt);
 
