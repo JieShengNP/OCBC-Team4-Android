@@ -12,6 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,6 +34,8 @@ public class SettingsActivity extends AppCompatActivity {
     SharedPreferences sharedpreferences;
     String password;
     ProgressDialog progressDialog;
+    TextView logoutLayout;
+    AlertDialog.Builder adBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
         swicth1 = findViewById(R.id.switch1);
         progressDialog = new ProgressDialog(this);
         backBtn = findViewById(R.id.backBtn);
+        logoutLayout = findViewById(R.id.barLogoutLayout);
 
         SharedPreferences preferences = getSharedPreferences("Login", MODE_PRIVATE);
         String email = preferences.getString("email", "");
@@ -67,6 +71,17 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(SettingsActivity.this, DashboardActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        logoutLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+                Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                Toast.makeText(SettingsActivity.this, "You have successfully logged out!", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -442,7 +442,21 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
 //                        mDatabase.child("User").child()
                     }
 //                  Create an account for applicant if they do not have any
-                    SignUp(applicant, passwordTxt.getText().toString());
+                    if(isLoggedIn = false){
+                        SignUp(applicant, passwordTxt.getText().toString());
+                    }
+                    else{
+                        Bundle extras = new Bundle();
+                        Intent in;
+                        if(progressBar2.getProgress() == 100){
+                            in = new Intent(ApplicationFormActivity.this, ConfirmationPage.class);
+                        }else {
+                            in = new Intent(ApplicationFormActivity.this, SendApplicationCodeActivity.class);
+                        }
+                        extras.putSerializable("Application", application);
+                        in.putExtras(extras);
+                        ApplicationFormActivity.this.startActivity(in);
+                    }
                 }
             }
         });
@@ -521,6 +535,7 @@ public class ApplicationFormActivity extends AppCompatActivity implements DatePi
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             setSignInDetails();
+
                         }
                         else {
                             // If sign in fails, display a message to the user.

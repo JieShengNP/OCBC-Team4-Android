@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +30,7 @@ public class EnterApplicationCodeActivity extends AppCompatActivity {
     List<Application> applicationList = new ArrayList<>();
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance("https://ocbc-team4-2b3ee-default-rtdb.asia-southeast1.firebasedatabase.app/");
     DatabaseReference mDatabase = firebaseDatabase.getReference();
+    ImageView appCodeBackBtn;
     private String android_id;
 
     @SuppressLint("HardwareIds")
@@ -56,6 +58,8 @@ public class EnterApplicationCodeActivity extends AppCompatActivity {
 //      Initialise
         applicationCodeTxt = findViewById(R.id.applicationCodeTxt);
         continueBtn = findViewById(R.id.continueBtn);
+        appCodeBackBtn = findViewById(R.id.appCodeBackBtn);
+
 
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +89,14 @@ public class EnterApplicationCodeActivity extends AppCompatActivity {
                 if(found == false){
                     Toast.makeText(getApplicationContext(), "Invalid application code, please try again", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        appCodeBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EnterApplicationCodeActivity.this, SelectApplicationCode.class);
+                startActivity(intent);
             }
         });
 
