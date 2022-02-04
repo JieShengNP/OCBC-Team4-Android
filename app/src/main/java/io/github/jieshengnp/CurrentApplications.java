@@ -107,7 +107,32 @@ public class CurrentApplications extends AppCompatActivity {
                                     applicationList.add(app);
                                 }
                             }
-                            customApplicationAdapter.notifyDataSetChanged();
+                            firebaseDatabase.getReference().child("CompletedApplication").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot snap : snapshot.getChildren()) {
+                                        boolean exist = false;
+                                        Application app = snap.getValue(Application.class);
+                                        if (app.getApplicantList().size() == 1) {
+                                            if (app.getApplicantList().get(0).getNRIC().equals(userNRIC)) {
+                                                exist = true;
+                                            }
+                                        } else if (app.getApplicantList().size() == 2) {
+                                            if (app.getApplicantList().get(1).getNRIC().equals(userNRIC)) {
+                                                exist = true;
+                                            }
+                                        }
+                                        if (exist) {
+                                            applicationList.add(app);
+                                        }
+                                    }
+                                    customApplicationAdapter.notifyDataSetChanged();
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
                         }
 
                         @Override
