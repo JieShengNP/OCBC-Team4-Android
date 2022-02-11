@@ -99,6 +99,9 @@ public class CurrentApplications extends AppCompatActivity {
                                         exist = true;
                                     }
                                 } else if (app.getApplicantList().size() == 2){
+                                    if (app.getApplicantList().get(0).getNRIC().equals(userNRIC)){
+                                        exist = true;
+                                    }
                                     if (app.getApplicantList().get(1).getNRIC().equals(userNRIC)){
                                         exist = true;
                                     }
@@ -118,6 +121,9 @@ public class CurrentApplications extends AppCompatActivity {
                                                 exist = true;
                                             }
                                         } else if (app.getApplicantList().size() == 2) {
+                                            if (app.getApplicantList().get(0).getNRIC().equals(userNRIC)){
+                                                exist = true;
+                                            }
                                             if (app.getApplicantList().get(1).getNRIC().equals(userNRIC)) {
                                                 exist = true;
                                             }

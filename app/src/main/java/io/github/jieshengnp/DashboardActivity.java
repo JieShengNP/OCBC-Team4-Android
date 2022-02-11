@@ -91,18 +91,20 @@ public class DashboardActivity extends AppCompatActivity {
                 } else {
                     currentUserData = task.getResult().getValue(Applicant.class);
                     nameTxt.setText("Welcome, " + currentUserData.getName() + "!");
-                    for(Map.Entry<String, Boolean> entry: currentUserData.Accounts.entrySet()) {
-                        if (entry.getValue()){
-                            firebaseDatabase.getReference().child("Account").child(entry.getKey()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                    if (task.isSuccessful()){
-                                        Accounts newAccount = task.getResult().getValue(Accounts.class);
-                                        accountsList.add(newAccount);
-                                        accountsAdapter.notifyDataSetChanged();
+                    if (currentUserData.Accounts != null) {
+                        for (Map.Entry<String, Boolean> entry : currentUserData.Accounts.entrySet()) {
+                            if (entry.getValue()) {
+                                firebaseDatabase.getReference().child("Account").child(entry.getKey()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            Accounts newAccount = task.getResult().getValue(Accounts.class);
+                                            accountsList.add(newAccount);
+                                            accountsAdapter.notifyDataSetChanged();
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }
                         }
                     }
                     accountsAdapter.notifyDataSetChanged();
