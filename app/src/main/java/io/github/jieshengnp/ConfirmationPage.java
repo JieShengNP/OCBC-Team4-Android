@@ -125,10 +125,26 @@ public class ConfirmationPage extends AppCompatActivity {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if(task.isSuccessful()){
                     application = task.getResult().getValue(Application.class);
-                    Log.d("NAME", application.getApplicantList().get(0).getName());
-                    applicant1 = application.getApplicantList().get(0);
-                    applicant2 = application.getApplicantList().get(1);
-                    UpdateFields();
+                    if (application != null) {
+                        Log.d("NAME", application.getApplicantList().get(0).getName());
+                        applicant1 = application.getApplicantList().get(0);
+                        applicant2 = application.getApplicantList().get(1);
+                        UpdateFields();
+                    }
+                    else {
+                        mDatabase.child("CompletedApplication").child(applicationId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                application = task.getResult().getValue(Application.class);
+                                if (application != null) {
+                                    Log.d("NAME", application.getApplicantList().get(0).getName());
+                                    applicant1 = application.getApplicantList().get(0);
+                                    applicant2 = application.getApplicantList().get(1);
+                                    UpdateFields();
+                                }
+                            }
+                        });
+                    }
                 }
             }
         });
